@@ -4,7 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>关于我 - 我的个人博客</title>
-    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="./styles/main.css">
+    <style>
+        /* 新增样式 */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            padding: 0;
+        }
+        
+        nav ul li {
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        main {
+            background-color: #fff;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .profile-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .info-section {
+            flex: 2;
+            padding-left: 40px;
+        }
+        
+        .profile-pic {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        h1, h2 {
+            color: #333;
+        }
+        
+        .contact-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .contact-list li {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -24,29 +111,33 @@
         </nav>
         
         <main>
+            <h1>关于我</h1>
+            
             <div class="about-content">
-                <h1>关于我</h1>
-                <!-- 如果有头像，可以添加这一行 -->
-                <img src="./image/2.png" alt="我的照片" class="profile-pic">
+                <div class="profile-section">
+                    <img src="./image/2.png" alt="我的照片" class="profile-pic">
+                    <div class="social-icons">
+                        <a href="https://github.com/ooszm" target="_blank">GitHub</a>
+                        <a href="mailto:2082822546@qq.com">Email</a>
+                    </div>
+                </div>
                 
-                <p>大家好，欢迎来到我的个人博客！</p>
-                
-                <h2>我是谁</h2>
-                <p>石志明</p>
-                
-                <h2>我的专业</h2>
-                <p>在这里可以详细介绍您的专业技能、教育背景、工作经验等。</p>
-                
-                <h2>为什么写博客</h2>
-                <p>随便玩玩</p>
-                
-                <h2>联系我</h2>
-                <p>如果您愿意，可以在这里提供您的联系方式或社交媒体链接。</p>
-                <ul>
-                    <li>邮箱：2082822546@qq.com</li>
-                    <li>GitHub：<a href="https://github.com/yourusername" target="_blank">github.com/ooszm</a></li>
-                    <!-- 其他社交媒体链接 -->
-                </ul>
+                <div class="info-section">
+                    <h2>石志明</h2>
+                    <p>大家好，欢迎来到我的个人博客！</p>
+                    
+                    <h2>我的专业</h2>
+                    <p>在这里可以详细介绍您的专业技能、教育背景、工作经验等。例如，您可以列出您掌握的编程语言、技术框架，或者您的学术背景和研究兴趣。</p>
+                    
+                    <h2>为什么写博客</h2>
+                    <p>随便玩玩，通过这个博客，我希望能够记录自己的学习历程，分享有价值的知识和经验，同时也希望能与志同道合的朋友交流和讨论。</p>
+                    
+                    <h2>联系我</h2>
+                    <ul class="contact-list">
+                        <li>邮箱：<a href="mailto:2082822546@qq.com">2082822546@qq.com</a></li>
+                        <li>GitHub：<a href="https://github.com/ooszm" target="_blank">github.com/ooszm</a></li>
+                    </ul>
+                </div>
             </div>
         </main>
     </div>

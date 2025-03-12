@@ -623,17 +623,18 @@
                 return;
             }
             
-            // 获取豌豆射手的位置，使其从植物位置射出
-            const cellRect = cell.getBoundingClientRect();
+            // 获取豌豆射手的实际位置
+            const peashooterRect = peashooter.getBoundingClientRect();
             const containerRect = document.querySelector('.game-container').getBoundingClientRect();
             
-            // 计算射出位置相对于容器的位置
-            const shootPositionLeft = (cellRect.left - containerRect.left) + cellRect.width - 10;
+            // 计算射出位置相对于容器的位置（从豌豆射手的右侧发射）
+            const shootPositionLeft = peashooterRect.right - containerRect.left;
+            const shootPositionTop = peashooterRect.top + (peashooterRect.height / 2) - containerRect.top;
             
             const pea = document.createElement('div');
             pea.className = 'pea';
             pea.style.left = `${shootPositionLeft}px`;
-            pea.style.top = `${row * (600*0.85/5) + 100 + 30}px`;
+            pea.style.top = `${shootPositionTop}px`;
             
             document.querySelector('.game-container').appendChild(pea);
             
@@ -753,7 +754,7 @@
                         if (plant.dataset.type === 'wallnut') {
                             // 初始化坚果的生命值，如果还没有的话
                             if (!plant.dataset.health) {
-                                plant.dataset.health = 1000; // 坚果墙有1000点生命值
+                                plant.dataset.health = 10; // 坚果墙有10点生命值
                                 // 为坚果添加生命值显示
                                 const healthDisplay = document.createElement('div');
                                 healthDisplay.className = 'plant-health';

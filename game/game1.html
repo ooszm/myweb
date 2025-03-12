@@ -513,6 +513,8 @@
             const plant = document.createElement('div');
             plant.className = `plant ${selectedPlant}`;
             plant.dataset.type = selectedPlant;
+            plant.dataset.row = row;
+            plant.dataset.col = col;
             
             // 放置植物并扣除阳光
             cell.appendChild(plant);
@@ -523,6 +525,11 @@
             if (selectedPlant === 'sunflower') {
                 const interval = setInterval(() => {
                     if (gameOver) return;
+                    // 检查向日葵是否还存在
+                    if (!document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"] .sunflower`)) {
+                        clearInterval(interval);
+                        return;
+                    }
                     produceSun(row, col);
                 }, 10000); // 减少产生阳光的时间间隔
                 intervals.push(interval);
@@ -532,6 +539,11 @@
             if (selectedPlant === 'peashooter') {
                 const interval = setInterval(() => {
                     if (gameOver) return;
+                    // 检查豌豆射手是否还存在
+                    if (!document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"] .peashooter`)) {
+                        clearInterval(interval);
+                        return;
+                    }
                     shootPea(row, col);
                 }, 2000);
                 intervals.push(interval);
@@ -598,13 +610,29 @@
             document.getElementById('sun-counter').textContent = sunCount;
         }
         
-                    // 射击豌豆
+        // 射击豌豆
         function shootPea(row, col) {
             if (gameOver) return;
             
+            // 检查豌豆射手是否还存在
+            const cell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`);
+            const peashooter = cell.querySelector('.peashooter');
+            
+            // 如果豌豆射手已经不存在，则停止射击
+            if (!peashooter) {
+                return;
+            }
+            
+            // 获取豌豆射手的位置，使其从植物位置射出
+            const cellRect = cell.getBoundingClientRect();
+            const containerRect = document.querySelector('.game-container').getBoundingClientRect();
+            
+            // 计算射出位置相对于容器的位置
+            const shootPositionLeft = (cellRect.left - containerRect.left) + cellRect.width - 10;
+            
             const pea = document.createElement('div');
             pea.className = 'pea';
-            pea.style.left = `${col * (800/9) + 60}px`;
+            pea.style.left = `${shootPositionLeft}px`;
             pea.style.top = `${row * (600*0.85/5) + 100 + 30}px`;
             
             document.querySelector('.game-container').appendChild(pea);

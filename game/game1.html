@@ -344,6 +344,7 @@
             /* 调整走路动画持续时间在zombie类中 */
         }
         
+        /*
         @keyframes shoot {
             from {
                 left: 60px;
@@ -352,6 +353,7 @@
                 left: 800px;
             }
         }
+        */
         
         @keyframes fall {
             from {
@@ -610,7 +612,9 @@
             document.getElementById('sun-counter').textContent = sunCount;
         }
         
-        // 射击豌豆
+
+
+        // 然后完全重写shootPea函数
         function shootPea(row, col) {
             if (gameOver) return;
             
@@ -633,13 +637,34 @@
             
             const pea = document.createElement('div');
             pea.className = 'pea';
+            // 移除动画类，我们将使用JavaScript来移动豌豆
+            pea.style.animation = 'none';
             pea.style.left = `${shootPositionLeft}px`;
             pea.style.top = `${shootPositionTop}px`;
             
             document.querySelector('.game-container').appendChild(pea);
             
-            // 检测碰撞
+            // 使用JavaScript动画代替CSS动画
+            let peaPosition = shootPositionLeft;
+            const peaSpeed = 5; // 调整速度 (像素/帧)
+            const gameWidth = 800; // 游戏宽度
+            
+            // 动画和碰撞检测
             const peaInterval = setInterval(() => {
+                // 移动豌豆
+                peaPosition += peaSpeed;
+                pea.style.left = `${peaPosition}px`;
+                
+                // 如果豌豆超出游戏边界，移除它
+                if (peaPosition > gameWidth) {
+                    clearInterval(peaInterval);
+                    if (pea && pea.parentNode) {
+                        pea.remove();
+                    }
+                    return;
+                }
+                
+                // 碰撞检测
                 const peaRect = pea.getBoundingClientRect();
                 
                 document.querySelectorAll('.zombie').forEach(zombie => {
@@ -677,15 +702,7 @@
                         pea.remove();
                     }
                 });
-            }, 50);
-            
-            // 一段时间后自动消失
-            setTimeout(() => {
-                clearInterval(peaInterval);
-                if (pea && pea.parentNode) {
-                    pea.remove();
-                }
-            }, 2000);
+            }, 20); // 每20毫秒更新一次，可以调整以获得更流畅的动画
         }
         
         // 创建僵尸

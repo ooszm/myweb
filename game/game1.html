@@ -513,6 +513,8 @@
             const plant = document.createElement('div');
             plant.className = `plant ${selectedPlant}`;
             plant.dataset.type = selectedPlant;
+            plant.dataset.row = row;
+            plant.dataset.col = col;
             
             // 放置植物并扣除阳光
             cell.appendChild(plant);
@@ -523,6 +525,11 @@
             if (selectedPlant === 'sunflower') {
                 const interval = setInterval(() => {
                     if (gameOver) return;
+                    // 检查向日葵是否还存在
+                    if (!document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"] .sunflower`)) {
+                        clearInterval(interval);
+                        return;
+                    }
                     produceSun(row, col);
                 }, 10000); // 减少产生阳光的时间间隔
                 intervals.push(interval);
@@ -532,6 +539,11 @@
             if (selectedPlant === 'peashooter') {
                 const interval = setInterval(() => {
                     if (gameOver) return;
+                    // 检查豌豆射手是否还存在
+                    if (!document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"] .peashooter`)) {
+                        clearInterval(interval);
+                        return;
+                    }
                     shootPea(row, col);
                 }, 2000);
                 intervals.push(interval);
@@ -598,13 +610,113 @@
             document.getElementById('sun-counter').textContent = sunCount;
         }
         
-                    // 射击豌豆
+        // 定期生成僵尸，随着关卡增加生成速度，但速度更合理
+        const zombieSpawnInterval = setInterval(() => {
+            if (!gameOver) {
+                // 降低僵尸生成频率
+                spawnZombie();
+            }
+        }, 12000 - Math.min(level * 500, 7000));
+        intervals.push(zombieSpawnInterval);
+        
+        // 添加屏幕信息显示区域
+        const createInfoDisplay = () => {
+            // 删除现有的信息显示（如果有）
+            const existingInfo = document.getElementById('debug-info');
+            if (existingInfo) existingInfo.remove();
+            
+            const infoDisplay = document.createElement('div');
+            infoDisplay.id = 'debug-info';
+            infoDisplay.style.position = 'absolute';
+            infoDisplay.style.bottom = '10px';
+            infoDisplay.style.left = '10px';
+            infoDisplay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+            infoDisplay.style.color = 'white';
+            infoDisplay.style.padding = '5px';
+            infoDisplay.style.borderRadius = '5px';
+            infoDisplay.style.fontSize = '12px';
+            infoDisplay.style.zIndex = '100';
+            
+            document.querySelector('.game-container').appendChild(infoDisplay);
+            
+            // 更新信息显示的函数
+            window.updateInfoDisplay = (info) => {
+                if (infoDisplay) {
+                    infoDisplay.textContent = info;
+                }
+            };
+        };
+        
+        // 初始化信息显示
+        createInfoDisplay();
+        
+        // 重新开始游戏函数
+        function restartGame() {
+            // 清除所有定时器
+            intervals.forEach(interval => clearInterval(interval));
+            intervals = [];
+            
+            // 清除所有僵尸、豌豆和阳光
+            document.querySelectorAll('.zombie, .pea, .sun').forEach(element => {
+                element.remove();
+            });
+            
+            // 移除边界线（将在createLawn中重新创建）
+            const oldBoundary = document.querySelector('.game-container div[style*="rgba(255, 0, 0, 0.3)"]');
+            if (oldBoundary) {
+                oldBoundary.remove();
+            }
+            
+            // 重置游戏状态
+            selectedPlant = '';
+            sunCount = 50;
+            zombieCount = 0;
+            level = 1;
+            gameOver = false;
+            
+            // 更新UI
+            updateSunCounter();
+            document.getElementById('level-display').textContent = `第 ${level} 波`;
+            document.getElementById('game-over').style.display = 'none';
+            
+            // 重建草坪
+            createLawn();
+            
+            // 重新启动定时器
+            const sunInterval = setInterval(randomSun, 7000);
+            intervals.push(sunInterval);
+            
+            const zombieSpawnInterval = setInterval(() => {
+                if (!gameOver) {
+                    spawnZombie();
+                }
+            }, 12000 - Math.min(level * 500, 7000));
+            intervals.push(zombieSpawnInterval);
+        }
+        
+        // 射击豌豆
         function shootPea(row, col) {
             if (gameOver) return;
             
+            // 检查豌豆射手是否还存在
+            const cell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`);
+            const peashooter = cell.querySelector('.peashooter');
+            
+            // 如果豌豆射手已经不存在，则停止射击
+            if (!peashooter) {
+                return;
+            }
+            
+            // 获取豌豆射手的位置，使其从植物位置射出
+            const cellRect = cell.getBoundingClientRect();
+            const containerRect = document.querySelector('.game-container').getBoundingClientRect();
+            
+            // 计算射出位置相对于容器的位置
+            const shootPositionLeft = (cellRect.left - containerRect.left) + cellRect.width - 10;
+            
             const pea = document.createElement('div');
             pea.className = 'pea';
-            pea.style.left = `${col * (800/9) + 60}px`;
+            pea.style.left = `${shootPositionLeft}px`;
             pea.style.top = `${row * (600*0.85/5) + 100 + 30}px`;
             
             document.querySelector('.game-container').appendChild(pea);
@@ -795,91 +907,3 @@
                 document.getElementById('level-display').textContent = `第 ${level} 波`;
             }
         }
-        
-        // 定期生成僵尸，随着关卡增加生成速度，但速度更合理
-        const zombieSpawnInterval = setInterval(() => {
-            if (!gameOver) {
-                // 降低僵尸生成频率
-                spawnZombie();
-            }
-        }, 12000 - Math.min(level * 500, 7000));
-        intervals.push(zombieSpawnInterval);
-        
-        // 添加屏幕信息显示区域
-        const createInfoDisplay = () => {
-            // 删除现有的信息显示（如果有）
-            const existingInfo = document.getElementById('debug-info');
-            if (existingInfo) existingInfo.remove();
-            
-            const infoDisplay = document.createElement('div');
-            infoDisplay.id = 'debug-info';
-            infoDisplay.style.position = 'absolute';
-            infoDisplay.style.bottom = '10px';
-            infoDisplay.style.left = '10px';
-            infoDisplay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-            infoDisplay.style.color = 'white';
-            infoDisplay.style.padding = '5px';
-            infoDisplay.style.borderRadius = '5px';
-            infoDisplay.style.fontSize = '12px';
-            infoDisplay.style.zIndex = '100';
-            
-            document.querySelector('.game-container').appendChild(infoDisplay);
-            
-            // 更新信息显示的函数
-            window.updateInfoDisplay = (info) => {
-                if (infoDisplay) {
-                    infoDisplay.textContent = info;
-                }
-            };
-        };
-        
-        // 初始化信息显示
-        createInfoDisplay();
-        
-        // 重新开始游戏函数
-        function restartGame() {
-            // 清除所有定时器
-            intervals.forEach(interval => clearInterval(interval));
-            intervals = [];
-            
-            // 清除所有僵尸、豌豆和阳光
-            document.querySelectorAll('.zombie, .pea, .sun').forEach(element => {
-                element.remove();
-            });
-            
-            // 移除边界线（将在createLawn中重新创建）
-            const oldBoundary = document.querySelector('.game-container div[style*="rgba(255, 0, 0, 0.3)"]');
-            if (oldBoundary) {
-                oldBoundary.remove();
-            }
-            
-            // 重置游戏状态
-            selectedPlant = '';
-            sunCount = 50;
-            zombieCount = 0;
-            level = 1;
-            gameOver = false;
-            
-            // 更新UI
-            updateSunCounter();
-            document.getElementById('level-display').textContent = `第 ${level} 波`;
-            document.getElementById('game-over').style.display = 'none';
-            
-            // 重建草坪
-            createLawn();
-            
-            // 重新启动定时器
-            const sunInterval = setInterval(randomSun, 7000); // 更新这里的时间间隔以匹配上面的修改
-            intervals.push(sunInterval);
-            
-            const zombieSpawnInterval = setInterval(() => {
-                if (!gameOver) {
-                    spawnZombie();
-                }
-            }, 12000 - Math.min(level * 500, 7000));
-            intervals.push(zombieSpawnInterval);
-        }
-    </script>
-    <li><a href="../about.html">返回介绍界面</a></li>
-</body>
-</html>

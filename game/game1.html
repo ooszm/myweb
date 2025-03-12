@@ -753,7 +753,7 @@
                         if (plant.dataset.type === 'wallnut') {
                             // 初始化坚果的生命值，如果还没有的话
                             if (!plant.dataset.health) {
-                                plant.dataset.health = 1000; // 坚果墙有1000点生命值
+                                plant.dataset.health = 10; // 坚果墙有10点生命值
                                 // 为坚果添加生命值显示
                                 const healthDisplay = document.createElement('div');
                                 healthDisplay.className = 'plant-health';
@@ -775,7 +775,8 @@
                                 // 更新生命值显示
                                 const healthDisplay = plant.querySelector('.plant-health');
                                 if (healthDisplay) {
-                                    healthDisplay.textContent = `♥ ${plant.dataset.health}/10`;
+                                    const currentHealth = parseInt(plant.dataset.health);
+                                    healthDisplay.textContent = `♥ ${currentHealth}/10`;
                                 }
                                 
                                 // 根据生命值改变坚果的外观
@@ -791,18 +792,33 @@
                             if (parseInt(plant.dataset.health) <= 0) {
                                 plant.remove();
                             }
+                            
+                            // 根据当前坚果生命值决定僵尸停留时间
+                            // 生命值越高，僵尸停留时间越长
+                            const currentHealth = parseInt(plant.dataset.health);
+                            const baseStopTime = 500; // 基础停顿时间，毫秒
+                            const stopTime = baseStopTime + (currentHealth * 200); // 每点生命值增加200毫秒停顿
+                            
+                            // 僵尸被植物阻挡时停止相应时间
+                            zombie.style.animationPlayState = 'paused';
+                            setTimeout(() => {
+                                if (zombie && zombie.parentNode) {
+                                    zombie.style.animationPlayState = 'running';
+                                }
+                            }, stopTime);
+                            
                         } else {
                             // 其他植物被咬一口就移除
                             plant.remove();
+                            
+                            // 其他植物的固定停顿时间
+                            zombie.style.animationPlayState = 'paused';
+                            setTimeout(() => {
+                                if (zombie && zombie.parentNode) {
+                                    zombie.style.animationPlayState = 'running';
+                                }
+                            }, 1500);
                         }
-                        
-                        // 僵尸被植物阻挡时停止一段时间，延长停顿时间，模拟吃植物的过程
-                        zombie.style.animationPlayState = 'paused';
-                        setTimeout(() => {
-                            if (zombie && zombie.parentNode) {
-                                zombie.style.animationPlayState = 'running';
-                            }
-                        }, 2500);
                     }
                 });
             }, 100);

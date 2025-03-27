@@ -31,7 +31,7 @@
             <div class="card about-content">
                 <h1>关于我</h1>
 
-                <!-- 恢复头像: 确保 ./images/profile.jpg 路径正确 -->
+                <!-- 确保 ./images/profile.jpg 路径正确 -->
                 <img src="./images/profile.jpg" alt="我的照片" class="profile-pic">
 
                 <p>大家好，欢迎来到我的个人博客！</p>
@@ -53,19 +53,32 @@
                     <!-- 其他社交媒体链接 -->
                 </ul>
 
-                <!-- ===== 新增 AI 工具区域 ===== -->
+                <!-- ===== AI 工具区域 (已分组) ===== -->
                 <div class="ai-tools-section">
                     <h3>常用 AI 工具</h3>
-                    <div class="ai-tools-grid">
-                        <a href="#" target="_blank" class="btn ai-tool-btn">DeepSeek</a>
-                        <a href="#" target="_blank" class="btn ai-tool-btn">Kimi</a>
-                        <a href="#" target="_blank" class="btn ai-tool-btn">Gemini</a>
-                        <a href="#" target="_blank" class="btn ai-tool-btn">ChatGPT</a>
-                        <a href="#" target="_blank" class="btn ai-tool-btn">Claude</a>
-                        <a href="#" target="_blank" class="btn ai-tool-btn">Grok</a>
-                        <a href="#" target="_blank" class="btn ai-tool-btn">豆包</a>
-                        <a href="#" target="_blank" class="btn ai-tool-btn">文心一言</a>
-                        <!-- 在这里添加更多按钮，如果需要 -->
+
+                    <!-- 国内工具 -->
+                    <div class="ai-tools-category domestic-tools">
+                        <h4>国内</h4>
+                        <div class="ai-tools-grid">
+                            <a href="#" target="_blank" class="btn ai-tool-btn">DeepSeek</a>
+                            <a href="#" target="_blank" class="btn ai-tool-btn">Kimi</a>
+                            <a href="#" target="_blank" class="btn ai-tool-btn">豆包</a>
+                            <a href="#" target="_blank" class="btn ai-tool-btn">文心一言</a>
+                             <!-- 如果有其他国内工具，加在这里 -->
+                        </div>
+                    </div>
+
+                    <!-- 国外工具 -->
+                    <div class="ai-tools-category international-tools">
+                        <h4>国外</h4>
+                        <div class="ai-tools-grid">
+                            <a href="#" target="_blank" class="btn ai-tool-btn">Gemini</a>
+                            <a href="#" target="_blank" class="btn ai-tool-btn">ChatGPT</a>
+                            <a href="#" target="_blank" class="btn ai-tool-btn">Claude</a>
+                            <a href="#" target="_blank" class="btn ai-tool-btn">Grok</a>
+                            <!-- 如果有其他国外工具，加在这里 -->
+                        </div>
                     </div>
                 </div>
                 <!-- ===== AI 工具区域结束 ===== -->

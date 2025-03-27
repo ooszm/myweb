@@ -285,4 +285,25 @@ footer {
     transform: translateY(-2px); /* 轻微上移效果 */
     text-decoration: none;
 }
+/* === AI 工具按钮区域 (分组调整) === */
 
+/* .ai-tools-section h3 样式保持不变 */
+
+.ai-tools-category {
+    margin-top: 2rem; /* 分组之间的垂直间距 */
+}
+
+.ai-tools-category h4 {
+    color: var(--secondary-text-color, #aaa); /* 子标题使用次要文本颜色 */
+    font-size: 1.1rem; /* 子标题字号 */
+    text-align: center;
+    margin-bottom: 1rem; /* 子标题和按钮网格之间的距离 */
+    font-weight: 500;
+    text-transform: uppercase; /* 字母大写，可选 */
+    letter-spacing: 1px; /* 增加字母间距，可选 */
+    /* 可以根据需要添加上下边框等 */
+    /* border-top: 1px solid var(--border-color); */
+    /* padding-top: 0.5rem; */
+}
+
+/* .ai-tools-grid, .btn, .ai-tool-btn 及其 :hover 样式保持不变 */

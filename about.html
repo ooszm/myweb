@@ -1,238 +1,68 @@
-/* === 全局变量 === */
-:root {
-    --bg-color: #1f1f23; /* 深灰蓝背景 */
-    --card-bg-color: #2a2a2e; /* 卡片背景，稍亮 */
-    --text-color: #e0e0e0; /* 主要文字颜色，浅灰 */
-    --heading-color: #ffffff; /* 标题颜色，白色 */
-    --primary-accent: #4285F4; /* Google Blue 强调色 (替换 #4a89dc) */
-    --secondary-accent: #8ab4f8; /* 浅蓝色，用于链接或次要强调 */
-    --border-color: #3a3a40; /* 边框颜色 */
-    --link-hover-color: #64a0ff; /* 链接悬停颜色 */
-    /* 保留或更新字体，Roboto 是 Google 常用的 */
-    --font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --container-max-width: 960px; /* 可以稍微加宽 */
-}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 - 我的个人博客</title>
+    <!-- 确保链接到正确的 CSS 文件 -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <!-- 引入 Google Fonts (可选，但推荐用于一致性) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <!-- 可以给 H1 添加一个 logo 类的 span 来加特殊效果 -->
+            <h1>我的个人<span class="logo-accent">博客</span></h1>
+            <p>分享我的想法和经验</p>
+        </div>
+    </header>
 
-/* === 全局样式 === */
-body {
-    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-    font-family: var(--font-family); /* 使用变量 */
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    /* color: #333; */
-    color: var(--text-color); /* 改为浅色文字 */
-    /* background-color: #f5f5f5; */
-    background-color: var(--bg-color); /* 改为深色背景 */
-    display: flex; /* 用于将 footer 推到底部 */
-    flex-direction: column; /* 用于将 footer 推到底部 */
-    min-height: 100vh; /* 用于将 footer 推到底部 */
-}
+    <div class="container content-wrapper">
+        <nav>
+            <ul>
+                <li><a href="./index.html">首页</a></li>
+                <li><a href="./posts/index.html">文章</a></li>
+                <!-- 可以给当前页面链接添加 active 类 -->
+                <li><a href="./about.html" class="active">关于我</a></li>
+            </ul>
+        </nav>
 
-a {
-    /* color: #4a89dc; */
-    color: var(--secondary-accent); /* 使用浅蓝色强调色 */
-    text-decoration: none;
-    transition: color 0.3s ease; /* 添加过渡 */
-}
+        <main>
+            <!-- 将主要内容包裹在一个 card 类中 -->
+            <div class="card about-content">
+                <h1>关于我</h1>
+                <!-- 如果有头像，可以添加 -->
+                <!-- <img src="./images/profile.jpg" alt="我的照片" class="profile-pic"> -->
 
-a:hover {
-    /* text-decoration: underline; */
-    color: var(--link-hover-color); /* 使用更亮的悬停色 */
-    text-decoration: none; /* 移除下划线，更现代 */
-}
+                <p>大家好，欢迎来到我的个人博客！</p>
 
-.container {
-    /* max-width: 800px; */
-    max-width: var(--container-max-width); /* 使用变量 */
-    margin: 0 auto;
-    padding: 0 1rem;
-    width: 90%; /* 增加响应式宽度 */
-}
+                <h2>我是谁</h2>
+                <p>这里可以介绍一下您自己，比如您的名字、职业、兴趣爱好等信息。</p>
 
-/* === 头部样式 === */
-header {
-    /* background-color: #4a89dc; */
-    background-color: var(--card-bg-color); /* 使用卡片背景色 */
-    /* color: white; */
-    color: var(--heading-color); /* 确保文字是亮的 */
-    text-align: center;
-    padding: 2rem 0;
-    margin-bottom: 2rem;
-    /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
-    border-bottom: 1px solid var(--border-color); /* 用边框代替阴影 */
-    box-shadow: none; /* 移除原有阴影 */
-}
+                <h2>我的专业</h2>
+                <p>在这里可以详细介绍您的专业技能、教育背景、工作经验等。</p>
 
-header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    color: var(--heading-color); /* 确保标题是白色 */
-}
+                <h2>为什么写博客</h2>
+                <p>这里可以分享您创建这个博客的初衷和目标，以及您打算在博客上分享什么内容。</p>
 
-/* 添加一个强调色给博客名称 (需要在 HTML 中添加 span) */
-/* header h1 .logo-accent { color: var(--primary-accent); } */
+                <h2>联系我</h2>
+                <p>如果您愿意，可以在这里提供您的联系方式或社交媒体链接。</p>
+                <ul class="contact-list">
+                    <li><span class="icon-placeholder">📧</span> 邮箱：your.email@example.com</li>
+                    <li><span class="icon-placeholder">🔗</span> GitHub：<a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></li>
+                    <!-- 其他社交媒体链接 -->
+                </ul>
+            </div>
+        </main>
+    </div>
 
-/* === 导航样式 === */
-nav {
-    margin-bottom: 2rem;
-    padding-bottom: 1rem; /* 为底部边框留空间 */
-    border-bottom: 1px solid var(--border-color); /* 添加分隔线 */
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-
-nav li {
-    margin: 0 1rem;
-}
-
-nav a {
-    text-decoration: none;
-    /* color: #4a89dc; */
-    color: var(--text-color); /* 导航链接使用普通文本色 */
-    font-weight: bold; /* 可以保留或改为 normal */
-    font-weight: 400; /* 改为正常粗细 */
-    padding: 0.5rem 0.8rem; /* 增加点击区域 */
-    border-radius: 4px; /* 轻微圆角 */
-    transition: color 0.3s ease, background-color 0.3s ease; /* 添加背景色过渡 */
-}
-
-nav a:hover {
-    /* color: #2a69bc; */
-    color: var(--heading-color); /* 悬停时变亮 */
-    background-color: rgba(255, 255, 255, 0.1); /* 悬停时增加背景高亮 */
-    text-decoration: none;
-}
-
-/* 添加一个 .active 类给当前页面链接 (需要在 HTML 中添加) */
-nav a.active {
-    color: var(--primary-accent);
-    font-weight: 700; /* 加粗 */
-    /* 可以加下划线或不同背景 */
-     border-bottom: 2px solid var(--primary-accent);
-     padding-bottom: calc(0.5rem - 2px); /* 调整内边距 */
-     background-color: transparent; /* 取消可能存在的悬停背景色 */
-}
-
-/* === 文章卡片 和 关于页面样式 (合并 .post 和 .about-content 的通用样式) === */
-.post, .about-content {
-    /* background-color: white; */
-    background-color: var(--card-bg-color); /* 使用卡片背景色 */
-    border-radius: 8px; /* 圆角可以大一点 */
-    padding: 2rem 2.5rem; /* 增加内边距 */
-    margin-bottom: 2rem;
-    /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* 调整阴影适应暗色主题 */
-    border: 1px solid var(--border-color); /* 添加细边框 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 保留 hover 动画 */
-    line-height: 1.7; /* 可以微调行高 */
-}
-
-.post:hover, .about-content:hover { /* 保持或调整 hover 效果 */
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* 稍微增强阴影 */
-}
-
-.post-title {
-    margin-top: 0;
-    /* color: #4a89dc; */
-    color: var(--primary-accent); /* 标题使用主强调色 */
-    margin-bottom: 0.5rem; /* 调整标题下方间距 */
-    font-size: 1.8rem; /* 可以调整标题大小 */
-}
-
-.post-title a {
-    /* color: #4a89dc; */
-    color: inherit; /* 继承 .post-title 的颜色 */
-    text-decoration: none;
-}
-
-.post-title a:hover {
-    text-decoration: underline; /* 标题链接悬停时加下划线 */
-    color: var(--link-hover-color); /* 悬停时变色 */
-}
-
-.post-meta {
-    /* color: #888; */
-    color: #a0a0a0; /* 元信息使用更浅的灰色 */
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem; /* 增加元信息下方间距 */
-}
-
-.post-content {
-    line-height: 1.7; /* 确保内容行高一致 */
-}
-
-/* 关于页面特有样式 */
-.about-content h1, .about-content h2 { /* 为 "关于" 页面的标题添加样式 */
-    color: var(--heading-color);
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border-color);
-}
-.about-content h1 {
-    color: var(--primary-accent); /* 主标题用强调色 */
-    border-bottom-width: 2px;
-    border-bottom-color: var(--primary-accent);
-    margin-top: 0; /* 第一个标题不加顶部外边距 */
-}
-.about-content h2 {
-    font-size: 1.5rem;
-}
-.about-content p {
-    margin-bottom: 1rem;
-}
-
-.profile-pic {
-    max-width: 180px; /* 可以调整大小 */
-    border-radius: 50%;
-    margin: 0 auto 2rem auto; /* 增加下方间距 */
-    display: block;
-    border: 4px solid var(--primary-accent); /* 添加强调色边框 */
-    box-shadow: 0 0 10px rgba(66, 133, 244, 0.3); /* 可选：加点光晕效果 */
-}
-
-/* === 页脚样式 === */
-footer {
-    text-align: center;
-    padding: 1.5rem 0; /* 增加内边距 */
-    margin-top: auto; /* 将页脚推到底部 */
-    /* color: #888; */
-    color: #a0a0a0; /* 页脚文字颜色 */
-    font-size: 0.9rem;
-    /* border-top: 1px solid #ddd; */
-    border-top: 1px solid var(--border-color); /* 修改边框颜色 */
-    background-color: var(--card-bg-color); /* 页脚背景与 header 一致 */
-}
-
-/* === 响应式设计 === */
-@media (max-width: 768px) { /* 稍微调整断点 */
-    header h1 {
-        font-size: 2rem;
-    }
-
-    .post, .about-content {
-        padding: 1.5rem; /* 调整小屏幕内边距 */
-    }
-}
-
-@media (max-width: 600px) {
-    nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    nav li {
-        margin: 0.5rem 0;
-    }
-
-    .post-title {
-        font-size: 1.5rem; /* 调整小屏幕标题大小 */
-    }
-}
+    <footer>
+        <div class="container">
+            <p>© 2025 我的个人博客. 使用GitHub Pages构建。</p>
+        </div>
+    </footer>
+</body>
+</html>

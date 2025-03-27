@@ -11,6 +11,7 @@
     /* 保留或更新字体，Roboto 是 Google 常用的 */
     --font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --container-max-width: 960px; /* 可以稍微加宽 */
+    --primary-accent-rgb: 66, 133, 244; /* #4285F4 的 RGB 值 */
 }
 
 /* === 全局样式 === */
@@ -236,3 +237,52 @@ footer {
         font-size: 1.5rem; /* 调整小屏幕标题大小 */
     }
 }
+/* === AI 工具按钮区域 === */
+.ai-tools-section {
+    margin-top: 2.5rem; /* 与上方内容隔开距离 */
+    padding-top: 1.5rem; /* 标题上方的内边距 */
+    border-top: 1px solid var(--border-color); /* 添加分隔线 */
+}
+
+.ai-tools-section h3 {
+    color: var(--heading-color);
+    font-size: 1.4rem; /* 比 H2 稍小 */
+    margin-bottom: 1.5rem; /* 标题和按钮之间的距离 */
+    text-align: center; /* 标题居中 */
+    font-weight: 500;
+}
+
+.ai-tools-grid {
+    display: flex; /* 使用 Flexbox 布局 */
+    flex-wrap: wrap; /* 允许按钮换行 */
+    gap: 1rem; /* 按钮之间的间隙 */
+    justify-content: center; /* 水平居中按钮 */
+}
+
+/* 通用按钮样式 (可以抽取 .btn 类用于其他按钮) */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 6px; /* 圆角 */
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+    font-weight: 500; /* 字体重量 */
+    padding: 0.7rem 1.3rem; /* 内边距 */
+}
+
+/* AI 工具按钮特定样式 */
+.ai-tool-btn {
+    background-color: rgba(255, 255, 255, 0.05); /* 非常浅的背景，增加区分度 */
+    color: var(--text-color); /* 使用默认文本颜色 */
+    border: 1px solid var(--border-color); /* 使用边框颜色 */
+}
+
+.ai-tool-btn:hover {
+    background-color: rgba(var(--primary-accent-rgb, 66, 133, 244), 0.15); /* 悬停时用主强调色的半透明背景 */
+    border-color: var(--primary-accent); /* 悬停时用主强调色边框 */
+    color: var(--heading-color); /* 悬停时文字变亮 */
+    transform: translateY(-2px); /* 轻微上移效果 */
+    text-decoration: none;
+}
+

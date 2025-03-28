@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <header>
         <div class="container">
@@ -36,7 +38,7 @@
 
                 <p>大家好，欢迎来到我的个人博客！</p>
 
-                <h2>我是谁</h2>
+                <h2 class="lxw">我是谁</h2>
                 <p>这里可以介绍一下您自己，比如您的名字、职业、兴趣爱好等信息。</p>
 
                 <h2>我的专业</h2>
@@ -45,11 +47,12 @@
                 <h2>为什么写博客</h2>
                 <p>分享我的想法和经验</p>
 
-                <h2>联系我</h2>
+                <h2 >联系我</h2>
                 <p>如果您愿意，可以在这里提供您的联系方式或社交媒体链接。</p>
                 <ul class="contact-list">
                     <li><span class="icon-placeholder">📧</span> 邮箱：zhimingshi74@gmail.com</li>
-                    <li><span class="icon-placeholder">🔗</span> GitHub：<a href="https://github.com/ooszm" target="_blank">github.com/ooszm</a></li>
+                    <li><span class="icon-placeholder">🔗</span> GitHub：<a href="https://github.com/ooszm"
+                            target="_blank">github.com/yourusername</a></li>
                     <!-- 其他社交媒体链接 -->
                 </ul>
 
@@ -66,7 +69,7 @@
                             <a href="https://www.doubao.com/" target="_blank" class="btn ai-tool-btn">豆包</a>
                             <a href="https://yiyan.baidu.com/" target="_blank" class="btn ai-tool-btn">文心一言</a>
                             <a href="https://tongyi.aliyun.com/" target="_blank" class="btn ai-tool-btn">千问</a>
-                             <!-- 如果有其他国内工具，加在这里 -->
+                            <!-- 如果有其他国内工具，加在这里 -->
                         </div>
                     </div>
 
@@ -82,7 +85,6 @@
                         </div>
                     </div>
 
-                    <!-- 个人关注 -->
                     <div class="ai-tools-category international-tools">
                         <h4>特殊途径ai工具</h4>
                         <div class="ai-tools-grid">
@@ -90,7 +92,6 @@
                             <a href="https://poe.com/" target="_blank" class="btn ai-tool-btn">国外ai集合网</a>
                         </div>
                     </div>
-                    
                 </div>
                 <!-- ===== AI 工具区域结束 ===== -->
 
@@ -103,5 +104,19 @@
             <p>© 2025 我的个人博客. 使用GitHub Pages构建。</p>
         </div>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-nest.js/2.0.4/canvas-nest.js" color="255,255,255"
+        zIndex="-1"></script>
+    <script>
+        var lxw = document.querySelector('.lxw')
+        lxw.onclick = function () {
+            const rect = lxw.getBoundingClientRect(); // 获取元素相对于视口的位置
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop; // 当前滚动位置
+            window.scrollTo({
+                top: rect.top + scrollTop, // 计算元素相对于文档顶部的位置
+                behavior: 'smooth' // 平滑滚动
+            });
+        };
+    </script>
 </body>
+
 </html>

@@ -12,6 +12,7 @@
     --font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     --container-max-width: 960px; /* 可以稍微加宽 */
     --primary-accent-rgb: 66, 133, 244; /* #4285F4 的 RGB 值 */
+    --boder-color:linear-gradient(to bottom right, rgb(230, 230, 236), rgb(109, 46, 56));
 }
 
 /* === 全局样式 === */
@@ -134,11 +135,15 @@ nav a.active {
     line-height: 1.7; /* 可以微调行高 */
 }
 
-.post:hover, .about-content:hover { /* 保持或调整 hover 效果 */
+.post:hover { /* 保持或调整 hover 效果 */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* 稍微增强阴影 */
+    border:#4285F4 1px solid; /* 悬停时使用浅蓝色边框 */
+}
+.about-content:hover{
     transform: translateY(-3px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* 稍微增强阴影 */
 }
-
 .post-title {
     margin-top: 0;
     /* color: #4a89dc; */
@@ -182,6 +187,7 @@ nav a.active {
     border-bottom-width: 2px;
     border-bottom-color: var(--primary-accent);
     margin-top: 0; /* 第一个标题不加顶部外边距 */
+    text-align: center;
 }
 .about-content h2 {
     font-size: 1.5rem;

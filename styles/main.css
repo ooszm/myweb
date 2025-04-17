@@ -314,14 +314,22 @@ footer {
 
 /* .ai-tools-grid, .btn, .ai-tool-btn 及其 :hover 样式保持不变 */
 
-.ai-tool-textarea {
-    width: 100%;
+.center-box {
+    display: flex;
+    flex-direction: column; /* 垂直排列 textarea 和 button */
+    align-items: center;     /* 居中对齐 */
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .ai-tool-textarea {
+    width: 60%;
+    min-width: 300px;
     height: 100px;
     padding: 10px;
+    font-size: 16px;
     border-radius: 8px;
-    font-size: 1rem;
     border: 1px solid #ccc;
-    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   #response {

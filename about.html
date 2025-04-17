@@ -114,6 +114,30 @@
                     </div>
 
                 <!-- ===== AI 工具区域结束 ===== -->
+                <!-- ===== AI 工具区域  ===== -->
+                <textarea id="query" class="ai-tool-textarea" placeholder="请输入查询请求..."></textarea>
+                <button onclick="sendQuery()" class="btn ai-tool-btn">提交请求</button>
+                <div id="response"></div>
+                
+                <script>
+                  async function sendQuery() {
+                    const query = document.getElementById("query").value;
+                    const resDiv = document.getElementById("response");
+                    resDiv.innerText = "正在查询...";
+                
+                    const response = await fetch("http://localhost:8000/ask", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ query })
+                    });
+                
+                    const data = await response.json();
+                    resDiv.innerText = data.result || "请求失败";
+                  }
+                </script>
+                
+
+
 
             </div> <!-- end of .card .about-content -->
         </main>

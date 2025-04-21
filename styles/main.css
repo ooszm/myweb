@@ -347,4 +347,32 @@ footer {
     white-space: pre-wrap;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
   }
+
+  .about-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 30px;
+    flex-wrap: wrap; /* 小屏幕自动换行 */
+  }
+  
+  .about-text {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .profile-pic {
+    width: 220px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    max-width: 100%;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
   

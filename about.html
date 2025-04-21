@@ -125,12 +125,12 @@
                     <div class="ai-tools-category international-tools">
                         <h4>视频生成模型 (Video Generation Models)</h4>
                         <div class="ai-tools-grid">
-                            <a href="https://runwayml.com/" target="_blank" class="btn ai-tool-btn">Runway (Gen-2 / Gen-3)</a>
+                            <a href="https://runwayml.com/" target="_blank" class="btn ai-tool-btn">Runway (Gen-3 / Gen-4)</a>
                             <a href="https://pika.art/" target="_blank" class="btn ai-tool-btn">Pika Labs</a>
                             <a href="https://kling.kuaishou.com/" target="_blank" class="btn ai-tool-btn">可灵 (Kling by Kuaishou)</a>
                             <a href="https://stability.ai/stable-video" target="_blank" class="btn ai-tool-btn">Stable Video Diffusion</a>
-                            <a href="https://openai.com/sora" target="_blank" class="btn ai-tool-btn">OpenAI Sora (信息页)</a>
-                            <a href="https://deepmind.google/technologies/veo/" target="_blank" class="btn ai-tool-btn">Google Veo (信息页)</a>
+                            <a href="https://openai.com/sora" target="_blank" class="btn ai-tool-btn">OpenAI Sora</a>
+                            <a href="https://deepmind.google/technologies/veo/" target="_blank" class="btn ai-tool-btn">Google Veo</a>
                             <a href="https://lumalabs.ai/dream-machine" target="_blank" class="btn ai-tool-btn">Luma AI Dream Machine</a>
                             <a href="https://tongyi.aliyun.com/wanxiang/videoCreation" target="_blank" class="btn ai-tool-btn">通义万相 (视频)</a>
                         </div>
@@ -146,7 +146,7 @@
                 
                 <script>
                   async function sendQuery() {
-                    const query = document.getElementById("query").value;
+                    const query = document.getElementById("query").value; // 取值
                     const resDiv = document.getElementById("response");
                     resDiv.innerText = "正在查询...";
                 

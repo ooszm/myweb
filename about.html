@@ -170,24 +170,22 @@
     }
   
     // —— 新增 LangChain 调用 ——  
-    let lcSession = null;
+    let userId = "user_" + Math.random().toString(36).substr(2, 9); // 替换 lcSession 为 userId
     async function sendQueryLC() {
-      const query = document.getElementById("queryLC").value.trim();
-      const resDiv = document.getElementById("responseLC");
-      resDiv.innerText = "正在调用 LangChain...";
-      try {
-        const response = await fetch("https://b5bd-112-94-129-137.ngrok-free.app/ask_lc", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query, session_id: lcSession })
+    const query = document.getElementById("queryLC").value.trim();
+    const resDiv = document.getElementById("responseLC");
+    resDiv.innerText = "正在调用 LangChain...";
+    try {
+        const response = await fetch("http://localhost:8000/chat", { // 修改为 /chat
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: query, user_id: userId }) // 修改为 input 和 user_id
         });
         const data = await response.json();
-        // 保存 session_id 以保持上下文
-        lcSession = data.session_id;
-        resDiv.innerText = data.result || "请求失败";
-      } catch (err) {
+        resDiv.innerText = data.response || "请求失败"; // 修改为 data.response
+    } catch (err) {
         resDiv.innerText = "出错了：" + err.message;
-      }
+    }
     }
   </script>
   

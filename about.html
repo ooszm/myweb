@@ -170,6 +170,9 @@
                             resDiv.innerText = data.result || "请求失败";
                         } catch (err) {
                             resDiv.innerText = "出错了：" + err.message;
+                        } finally {
+                                // 提交后清除 Dify 文本框（可选，如果你也想清除它）
+                                document.getElementById("query").value = "";
                         }
                         }
                     
@@ -189,7 +192,10 @@
                             resDiv.innerText = data.response || "请求失败"; // 修改为 data.response
                         } catch (err) {
                             resDiv.innerText = "出错了：" + err.message;
-                        }
+                        }finally {
+                            // 提交后清除 LangChain 文本框
+                            document.getElementById("queryLC").value = "";
+                            }
                         }
                     </script>
   

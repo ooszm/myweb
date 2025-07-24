@@ -1,12 +1,12 @@
 /* === 全局变量 === */
 :root {
-    --bg-color: #e8e8f0; /* 深灰蓝背景 */
-    --card-bg-color: #2a2a2e; /* 卡片背景，稍亮 */
-    --text-color: #080808; /* 主要文字颜色，浅灰 */
-    --heading-color: #000000; /* 标题颜色，白色 */
+    --bg-color: #fff;           /* 全局背景白色 */
+    --card-bg-color: #fff;      /* 卡片背景白色 */
+    --text-color: #222;         /* 主要文字颜色深一点 */
+    --heading-color: #000;      /* 标题颜色黑色 */
     --primary-accent: #4285F4; /* Google Blue 强调色 (替换 #4a89dc) */
     --secondary-accent: #8ab4f8; /* 浅蓝色，用于链接或次要强调 */
-    --border-color: #3a3a40; /* 边框颜色 */
+    --border-color: #e0e0e0;    /* 边框浅灰 */
     --link-hover-color: #64a0ff; /* 链接悬停颜色 */
     /* 保留或更新字体，Roboto 是 Google 常用的 */
     --font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -374,5 +374,3 @@ footer {
     text-align: center;
     margin-top: 20px;
   }
-  
-  

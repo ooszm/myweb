@@ -49,7 +49,9 @@
                     <!-- 右侧图片 -->
                     <img src="./image/3.jpg" alt="我的照片" class="profile-pic">
                   </div>
-                
+
+                <button class="lxw" style="margin-bottom:16px;">测试</button>
+
                 <h2>科学上网</h2>
                 <p>我的邀请码：r1nfPHGd</p>
                 <p>可以选择发送任意邮件到此邮箱获取网址：themojie@pm.me，开启你对科学探索</p>
@@ -141,7 +143,7 @@
                  <div class="ai-tools-section">
                 <!-- ===== AI 工具区域  ===== -->
                     <!-- Dify 区域（原样保留） -->
-                    <div class="center-box">
+                    <div class="center-box" id="target-box">
                         <textarea id="query" class="ai-tool-textarea" placeholder="请输入查询请求..."></textarea>
                         <button onclick="sendQuery()" class="btn ai-tool-btn">提交请求到dify</button>
                     </div>
@@ -213,18 +215,21 @@
             <p>© 2025 我的个人博客. 使用GitHub Pages构建。</p>
         </div>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-nest.js/2.0.4/canvas-nest.js" color="255,255,255"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-nest.js/2.0.4/canvas-nest.js" color="random"
         zIndex="-1"></script>
     <script>
-        var lxw = document.querySelector('.lxw')
-        lxw.onclick = function () {
-            const rect = lxw.getBoundingClientRect(); // 获取元素相对于视口的位置
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop; // 当前滚动位置
-            window.scrollTo({
-                top: rect.top + scrollTop, // 计算元素相对于文档顶部的位置
-                behavior: 'smooth' // 平滑滚动
-            });
-        };
+        var lxw = document.querySelector('.lxw');
+        var target = document.getElementById('target-box');
+        if (lxw && target) {
+            lxw.onclick = function () {
+                const rect = target.getBoundingClientRect();
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                window.scrollTo({
+                    top: rect.top + scrollTop,
+                    behavior: 'smooth'
+                });
+            };
+        }
     </script>
 </body>
 

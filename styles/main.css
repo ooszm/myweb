@@ -1,85 +1,65 @@
-/* === 全局变量 === */
+/* Base variables and global styles for about page */
 :root {
-    --bg-color: #fff;           /* 全局背景白色 */
-    --card-bg-color: #fff;      /* 卡片背景白色 */
-    --text-color: #222;         /* 主要文字颜色深一点 */
-    --heading-color: #000;      /* 标题颜色黑色 */
-    --primary-accent: #4285F4; /* Google Blue 强调色 (替换 #4a89dc) */
-    --secondary-accent: #8ab4f8; /* 浅蓝色，用于链接或次要强调 */
-    --border-color: #e0e0e0;    /* 边框浅灰 */
-    --link-hover-color: #64a0ff; /* 链接悬停颜色 */
-    /* 保留或更新字体，Roboto 是 Google 常用的 */
+    --bg-color: #fff;
+    --card-bg-color: #fff;
+    --text-color: #222;
+    --heading-color: #000;
+    --primary-accent: #4285F4;
+    --secondary-accent: #8ab4f8;
+    --border-color: #e0e0e0;
+    --link-hover-color: #64a0ff;
     --font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --container-max-width: 960px; /* 可以稍微加宽 */
-    --primary-accent-rgb: 66, 133, 244; /* #4285F4 的 RGB 值 */
-    --boder-color:linear-gradient(to bottom right, rgb(230, 230, 236), rgb(109, 46, 56));
+    --container-max-width: 960px;
+    --primary-accent-rgb: 66, 133, 244;
 }
 
-/* === 全局样式 === */
 body {
-    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-    font-family: var(--font-family); /* 使用变量 */
+    font-family: var(--font-family);
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    /* color: #333; */
-    color: var(--text-color); /* 改为浅色文字 */
-    /* background-color: #f5f5f5; */
-    background-color: var(--bg-color); /* 改为深色背景 */
-    display: flex; /* 用于将 footer 推到底部 */
-    flex-direction: column; /* 用于将 footer 推到底部 */
-    min-height: 100vh; /* 用于将 footer 推到底部 */
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 a {
-    /* color: #4a89dc; */
-    color: var(--secondary-accent); /* 使用浅蓝色强调色 */
+    color: var(--secondary-accent);
     text-decoration: none;
-    transition: color 0.3s ease; /* 添加过渡 */
+    transition: color 0.3s ease;
 }
 
 a:hover {
-    /* text-decoration: underline; */
-    color: var(--link-hover-color); /* 使用更亮的悬停色 */
-    text-decoration: none; /* 移除下划线，更现代 */
+    color: var(--link-hover-color);
 }
 
 .container {
-    /* max-width: 800px; */
-    max-width: var(--container-max-width); /* 使用变量 */
+    max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 1rem;
-    width: 90%; /* 增加响应式宽度 */
+    width: 90%;
 }
 
-/* === 头部样式 === */
 header {
-    /* background-color: #4a89dc; */
-    background-color: var(--card-bg-color); /* 使用卡片背景色 */
-    /* color: white; */
-    color: var(--heading-color); /* 确保文字是亮的 */
+    background-color: var(--card-bg-color);
+    color: var(--heading-color);
     text-align: center;
     padding: 2rem 0;
     margin-bottom: 2rem;
-    /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
-    border-bottom: 1px solid var(--border-color); /* 用边框代替阴影 */
-    box-shadow: none; /* 移除原有阴影 */
+    border-bottom: 1px solid var(--border-color);
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5rem;
-    color: var(--heading-color); /* 确保标题是白色 */
 }
 
-/* 添加一个强调色给博客名称 (需要在 HTML 中添加 span) */
-/* header h1 .logo-accent { color: var(--primary-accent); } */
-
-/* === 导航样式 === */
 nav {
     margin-bottom: 2rem;
-    padding-bottom: 1rem; /* 为底部边框留空间 */
-    border-bottom: 1px solid var(--border-color); /* 添加分隔线 */
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
 nav ul {
@@ -94,138 +74,221 @@ nav li {
 }
 
 nav a {
-    text-decoration: none;
-    /* color: #4a89dc; */
-    color: var(--text-color); /* 导航链接使用普通文本色 */
-    font-weight: bold; /* 可以保留或改为 normal */
-    font-weight: 400; /* 改为正常粗细 */
-    padding: 0.5rem 0.8rem; /* 增加点击区域 */
-    border-radius: 4px; /* 轻微圆角 */
-    transition: color 0.3s ease, background-color 0.3s ease; /* 添加背景色过渡 */
+    color: var(--text-color);
+    font-weight: 400;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 nav a:hover {
-    /* color: #2a69bc; */
-    color: var(--heading-color); /* 悬停时变亮 */
-    background-color: rgba(255, 255, 255, 0.1); /* 悬停时增加背景高亮 */
-    text-decoration: none;
+    color: var(--heading-color);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* 添加一个 .active 类给当前页面链接 (需要在 HTML 中添加) */
 nav a.active {
     color: var(--primary-accent);
-    font-weight: 700; /* 加粗 */
-    /* 可以加下划线或不同背景 */
-     border-bottom: 2px solid var(--primary-accent);
-     padding-bottom: calc(0.5rem - 2px); /* 调整内边距 */
-     background-color: transparent; /* 取消可能存在的悬停背景色 */
+    font-weight: 700;
+    border-bottom: 2px solid var(--primary-accent);
+    padding-bottom: calc(0.5rem - 2px);
+    background-color: transparent;
 }
 
-/* === 文章卡片 和 关于页面样式 (合并 .post 和 .about-content 的通用样式) === */
-.post, .about-content {
-    /* background-color: white; */
-    background-color: var(--card-bg-color); /* 使用卡片背景色 */
-    border-radius: 8px; /* 圆角可以大一点 */
-    padding: 2rem 2.5rem; /* 增加内边距 */
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.card,
+.about-content {
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    padding: 2rem 2.5rem;
     margin-bottom: 2rem;
-    /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* 调整阴影适应暗色主题 */
-    border: 1px solid var(--border-color); /* 添加细边框 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 保留 hover 动画 */
-    line-height: 1.7; /* 可以微调行高 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    line-height: 1.7;
 }
 
-.post:hover { /* 保持或调整 hover 效果 */
+.about-content:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* 稍微增强阴影 */
-    border:#4285F4 1px solid; /* 悬停时使用浅蓝色边框 */
-}
-.about-content:hover{
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* 稍微增强阴影 */
-}
-.post-title {
-    margin-top: 0;
-    /* color: #4a89dc; */
-    color: var(--primary-accent); /* 标题使用主强调色 */
-    margin-bottom: 0.5rem; /* 调整标题下方间距 */
-    font-size: 1.8rem; /* 可以调整标题大小 */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
-.post-title a {
-    /* color: #4a89dc; */
-    color: inherit; /* 继承 .post-title 的颜色 */
-    text-decoration: none;
-}
-
-.post-title a:hover {
-    text-decoration: underline; /* 标题链接悬停时加下划线 */
-    color: var(--link-hover-color); /* 悬停时变色 */
-}
-
-.post-meta {
-    /* color: #888; */
-    color: #a0a0a0; /* 元信息使用更浅的灰色 */
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem; /* 增加元信息下方间距 */
-}
-
-.post-content {
-    line-height: 1.7; /* 确保内容行高一致 */
-}
-
-/* 关于页面特有样式 */
-.about-content h1, .about-content h2 { /* 为 "关于" 页面的标题添加样式 */
+.about-content h1,
+.about-content h2 {
     color: var(--heading-color);
     margin-top: 1.5rem;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--border-color);
 }
+
 .about-content h1 {
-    color: var(--primary-accent); /* 主标题用强调色 */
+    color: var(--primary-accent);
     border-bottom-width: 2px;
     border-bottom-color: var(--primary-accent);
-    margin-top: 0; /* 第一个标题不加顶部外边距 */
+    margin-top: 0;
     text-align: center;
 }
-.about-content h2 {
-    font-size: 1.5rem;
+
+.about-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 30px;
+    flex-wrap: wrap;
 }
-.about-content p {
-    margin-bottom: 1rem;
+
+.about-text {
+    flex: 1;
+    min-width: 250px;
 }
 
 .profile-pic {
-    max-width: 180px; /* 可以调整大小 */
-    border-radius: 50%;
-    margin: 0 auto 2rem auto; /* 增加下方间距 */
-    display: block;
-    border: 4px solid var(--primary-accent); /* 添加强调色边框 */
-    box-shadow: 0 0 10px rgba(66, 133, 244, 0.3); /* 可选：加点光晕效果 */
+    width: 220px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    max-width: 100%;
+    border: 4px solid var(--primary-accent);
+    box-shadow: 0 0 10px rgba(66, 133, 244, 0.3);
 }
 
-/* === 页脚样式 === */
+.contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-list li {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-placeholder {
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
 footer {
     text-align: center;
-    padding: 1.5rem 0; /* 增加内边距 */
-    margin-top: auto; /* 将页脚推到底部 */
-    /* color: #888; */
-    color: #a0a0a0; /* 页脚文字颜色 */
+    padding: 1.5rem 0;
+    margin-top: auto;
+    color: #a0a0a0;
     font-size: 0.9rem;
-    /* border-top: 1px solid #ddd; */
-    border-top: 1px solid var(--border-color); /* 修改边框颜色 */
-    background-color: var(--card-bg-color); /* 页脚背景与 header 一致 */
+    border-top: 1px solid var(--border-color);
+    background-color: var(--card-bg-color);
 }
 
-/* === 响应式设计 === */
-@media (max-width: 768px) { /* 稍微调整断点 */
+.ai-tools-section {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.ai-tools-section h3 {
+    color: var(--heading-color);
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.ai-tools-category {
+    margin-top: 2rem;
+}
+
+.ai-tools-category h4 {
+    color: #777;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.ai-tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+    font-weight: 500;
+    padding: 0.7rem 1.3rem;
+    border: 1px solid transparent;
+}
+
+.ai-tool-btn {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.ai-tool-btn:hover {
+    background-color: rgba(var(--primary-accent-rgb), 0.15);
+    border-color: var(--primary-accent);
+    color: var(--heading-color);
+    transform: translateY(-2px);
+}
+
+.center-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.ai-tool-textarea {
+    width: 60%;
+    min-width: 300px;
+    height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.response-box,
+#response,
+#responseLC {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    font-size: 16px;
+    line-height: 1.5;
+    border: 1px solid #444;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    white-space: pre-wrap;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
     header h1 {
         font-size: 2rem;
     }
 
-    .post, .about-content {
-        padding: 1.5rem; /* 调整小屏幕内边距 */
+    .about-content {
+        padding: 1.5rem;
     }
 }
 
@@ -238,139 +301,4 @@ footer {
     nav li {
         margin: 0.5rem 0;
     }
-
-    .post-title {
-        font-size: 1.5rem; /* 调整小屏幕标题大小 */
-    }
 }
-/* === AI 工具按钮区域 === */
-.ai-tools-section {
-    margin-top: 2.5rem; /* 与上方内容隔开距离 */
-    padding-top: 1.5rem; /* 标题上方的内边距 */
-    border-top: 1px solid var(--border-color); /* 添加分隔线 */
-}
-
-.ai-tools-section h3 {
-    color: var(--heading-color);
-    font-size: 1.4rem; /* 比 H2 稍小 */
-    margin-bottom: 1.5rem; /* 标题和按钮之间的距离 */
-    text-align: center; /* 标题居中 */
-    font-weight: 500;
-}
-
-.ai-tools-grid {
-    display: flex; /* 使用 Flexbox 布局 */
-    flex-wrap: wrap; /* 允许按钮换行 */
-    gap: 1rem; /* 按钮之间的间隙 */
-    justify-content: center; /* 水平居中按钮 */
-}
-
-/* 通用按钮样式 (可以抽取 .btn 类用于其他按钮) */
-.btn {
-    display: inline-block;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 6px; /* 圆角 */
-    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-    font-weight: 500; /* 字体重量 */
-    padding: 0.7rem 1.3rem; /* 内边距 */
-}
-
-/* AI 工具按钮特定样式 */
-.ai-tool-btn {
-    background-color: rgba(255, 255, 255, 0.05); /* 非常浅的背景，增加区分度 */
-    color: var(--text-color); /* 使用默认文本颜色 */
-    border: 1px solid var(--border-color); /* 使用边框颜色 */
-}
-
-.ai-tool-btn:hover {
-    background-color: rgba(var(--primary-accent-rgb, 66, 133, 244), 0.15); /* 悬停时用主强调色的半透明背景 */
-    border-color: var(--primary-accent); /* 悬停时用主强调色边框 */
-    color: var(--heading-color); /* 悬停时文字变亮 */
-    transform: translateY(-2px); /* 轻微上移效果 */
-    text-decoration: none;
-}
-/* === AI 工具按钮区域 (分组调整) === */
-
-/* .ai-tools-section h3 样式保持不变 */
-
-.ai-tools-category {
-    margin-top: 2rem; /* 分组之间的垂直间距 */
-}
-
-.ai-tools-category h4 {
-    color: var(--secondary-text-color, #aaa); /* 子标题使用次要文本颜色 */
-    font-size: 1.1rem; /* 子标题字号 */
-    text-align: center;
-    margin-bottom: 1rem; /* 子标题和按钮网格之间的距离 */
-    font-weight: 500;
-    text-transform: uppercase; /* 字母大写，可选 */
-    letter-spacing: 1px; /* 增加字母间距，可选 */
-    /* 可以根据需要添加上下边框等 */
-    /* border-top: 1px solid var(--border-color); */
-    /* padding-top: 0.5rem; */
-}
-
-/* .ai-tools-grid, .btn, .ai-tool-btn 及其 :hover 样式保持不变 */
-
-.center-box {
-    display: flex;
-    flex-direction: column; /* 垂直排列 textarea 和 button */
-    align-items: center;     /* 居中对齐 */
-    justify-content: center;
-    margin-top: 20px;
-  }
-  .ai-tool-textarea {
-    width: 60%;
-    min-width: 300px;
-    height: 100px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-  }
-
-  #response {
-    margin-top: 20px;
-    padding: 16px;
-    border-radius: 8px;
-    background-color: #1e1e1e;  /* 深色背景 */
-    color: #f0f0f0;             /* 高对比文字 */
-    font-size: 16px;
-    line-height: 1.5;
-    border: 1px solid #444;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    white-space: pre-wrap;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  }
-
-  .about-container {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 40px;
-    margin-top: 30px;
-    flex-wrap: wrap; /* 小屏幕自动换行 */
-  }
-  
-  .about-text {
-    flex: 1;
-    min-width: 250px;
-  }
-  
-  .profile-pic {
-    width: 220px;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    max-width: 100%;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-top: 20px;
-  }

@@ -1,0 +1,10 @@
+# Environment & secrets
+.env
+
+# Dependencies
+node_modules/
+
+# Package manager artifacts
+pnpm-lock.yaml
+npm-debug.log*
+yarn-error.log*

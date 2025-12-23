@@ -55,7 +55,7 @@
                     <img src="./image/4.png" alt="我的照片" class="profile-pic">
                 </div>
 
-                <button class="lxw" style="margin-bottom:16px;" type="button">前往工具区</button>
+                <a href="#ai-tools" class="btn ai-tool-btn" style="margin-bottom:16px; display:inline-block;">前往工具区</a>
 
                 <h2>科学上网</h2>
                 <p>我的邀请码：r1nfPHGd</p>
@@ -141,64 +141,6 @@
                     </div>
                 </div>
 
-                <div class="ai-tools-section">
-                    <div class="center-box" id="target-box">
-                        <textarea id="query" class="ai-tool-textarea" placeholder="请输入查询请求..."></textarea>
-                        <button onclick="sendQuery()" class="btn ai-tool-btn">提交请求到 Dify</button>
-                    </div>
-                    <div id="response" class="response-box"></div>
-
-                    <script>
-                        // 生成一个随机的用户ID，因为 Dify 要求必须带 user 参数
-                        const userId = "user_" + Math.random().toString(36).substr(2, 9);
-
-                        async function sendQuery() {
-                            const queryBox = document.getElementById("query");
-                            const query = queryBox.value.trim(); // 去掉收尾空格
-                            const resDiv = document.getElementById("response");
-
-                            if (!query) return; // 如果没输入内容就不发送
-
-                            resDiv.innerText = "✨ 小助手正在思考中..."; // 提示语可以可爱一点
-                            
-                            try {
-                                // 注意：这里不用加 /ask_dify 后缀，直接用域名即可，除非你在 Worker 里专门写了路由判断
-                                const response = await fetch("https://ai-help.zhimingshi74.workers.dev", {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" },
-                                    // ⚠️ 关键修改：Dify 要求的标准格式如下
-                                    body: JSON.stringify({
-                                        "inputs": {}, // 必填，即便是空的
-                                        "query": query, // 你的问题
-                                        "response_mode": "blocking", // 必填，blocking 代表等说完了一次性返回
-                                        "conversation_id": "", // 留空，代表开启新对话
-                                        "user": userId // 必填，用户标识
-                                    })
-                                });
-
-                                if (!response.ok) {
-                                    throw new Error("网络请求失败，状态码：" + response.status);
-                                }
-
-                                const data = await response.json();
-                                
-                                // ⚠️ 关键修改：Dify 返回的字段叫 answer，不叫 result
-                                if (data.answer) {
-                                     resDiv.innerText = data.answer;
-                                } else {
-                                     // 如果报错了，通常在 data.message 或 data.code 里
-                                     resDiv.innerText = "呜呜，小助手出错了：" + (data.message || JSON.stringify(data));
-                                }
-
-                            } catch (err) {
-                                resDiv.innerText = "连接失败啦：" + err.message;
-                            } finally {
-                                // 发送完清空输入框
-                                queryBox.value = "";
-                            }
-                        }
-                    </script>
-                </div>
             </div>
         </main>
     </div>
@@ -210,173 +152,181 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-nest.js/2.0.4/canvas-nest.js" color="random" zindex="-1"></script>
-    <script>
-        var lxw = document.querySelector('.lxw');
-        var target = document.getElementById('target-box');
-        if (lxw && target) {
-            lxw.onclick = function () {
-                const rect = target.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                window.scrollTo({
-                    top: rect.top + scrollTop,
-                    behavior: 'smooth'
-                });
-            };
-        }
-    </script>
 
-    <!-- 悬浮 AI 助手 -->
-    <div id="ai-cat-btn" class="cat-btn" title="点击和我聊天，或是拖拽我玩~">🐱</div>
-    <div id="ai-chat-panel" class="chat-panel" style="display: none;">
-        <div class="chat-header">
-            <span>✨ AI 喵喵助手</span>
-            <span class="close-btn" onclick="toggleChat()">×</span>
-        </div>
-        
-        <div class="chat-body" id="chat-response-area">
-            <div class="ai-msg">你好呀！我是你的博客小助手，有什么想问的吗？🐾</div>
-        </div>
+    <!-- ================= 强力修复版悬浮 AI 助手 ================= -->
+    <div id="ai-cat-container">
+        <div id="ai-cat-btn" title="点我聊天，拖我玩~">🐱</div>
+        <div id="ai-chat-panel">
+            <div class="chat-header">
+                <span>✨ AI 喵喵助手</span>
+                <span class="close-btn" onclick="toggleChat(event)">×</span>
+            </div>
+            
+            <div class="chat-body" id="chat-response-area">
+                <div class="ai-msg">嗨！我是你的博客小助手，有什么想问的吗？🐾</div>
+            </div>
 
-        <div class="chat-footer">
-            <textarea id="cat-query" placeholder="输入你的问题... (Shift+Enter换行)"></textarea>
-            <button onclick="sendCatQuery()" id="send-btn">发送</button>
+            <div class="chat-footer">
+                <textarea id="cat-query" placeholder="输入问题 (Shift+Enter换行)"></textarea>
+                <button onclick="sendCatQuery()" id="send-btn">发送</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // 悬浮助手逻辑
-        const catBtn = document.getElementById('ai-cat-btn');
-        const chatPanel = document.getElementById('ai-chat-panel');
-        const chatBody = document.getElementById('chat-response-area');
-        const queryInput = document.getElementById('cat-query');
-        const sendBtn = document.getElementById('send-btn');
+        (function () {
+            const catBtn = document.getElementById('ai-cat-btn');
+            const chatPanel = document.getElementById('ai-chat-panel');
+            const chatBody = document.getElementById('chat-response-area');
+            const queryInput = document.getElementById('cat-query');
+            const sendBtn = document.getElementById('send-btn');
+            const userId = "user_" + Math.random().toString(36).substr(2, 9);
+            const workerUrl = "https://ai-help.zhimingshi74.workers.dev";
 
-        // 复用已有 userId，如不存在则生成
-        const catUserId = (typeof userId !== "undefined" && userId) ? userId : "user_" + Math.random().toString(36).substr(2, 9);
-        const workerUrl = "https://ai-help.zhimingshi74.workers.dev";
+            let isDragging = false;
+            let startX, startY, initialLeft, initialTop;
 
-        let isDragging = false;
-        let hasMoved = false;
+            catBtn.addEventListener('mousedown', startDrag);
+            catBtn.addEventListener('touchstart', startDrag, { passive: false });
 
-        catBtn.addEventListener('mousedown', function (e) {
-            isDragging = true;
-            hasMoved = false;
-            let shiftX = e.clientX - catBtn.getBoundingClientRect().left;
-            let shiftY = e.clientY - catBtn.getBoundingClientRect().top;
-
-            function moveAt(pageX, pageY) {
-                hasMoved = true;
-                const maxLeft = window.innerWidth - catBtn.offsetWidth;
-                const maxTop = window.innerHeight - catBtn.offsetHeight;
-                const left = Math.max(0, Math.min(pageX - shiftX, maxLeft));
-                const top = Math.max(0, Math.min(pageY - shiftY, maxTop));
-                catBtn.style.left = left + 'px';
-                catBtn.style.top = top + 'px';
-                catBtn.style.bottom = 'auto';
-                catBtn.style.right = 'auto';
-            }
-
-            function onMouseMove(event) {
-                moveAt(event.pageX, event.pageY);
-            }
-
-            document.addEventListener('mousemove', onMouseMove);
-
-            catBtn.onmouseup = function () {
-                document.removeEventListener('mousemove', onMouseMove);
-                catBtn.onmouseup = null;
-                setTimeout(() => { isDragging = false; }, 0);
-            };
-        });
-
-        catBtn.ondragstart = function () { return false; };
-
-        catBtn.addEventListener('click', function () {
-            if (!hasMoved) {
-                toggleChat();
-            }
-        });
-
-        function toggleChat() {
-            if (chatPanel.style.display === 'none') {
-                chatPanel.style.display = 'flex';
+            function startDrag(e) {
+                isDragging = false;
+                const clientX = e.clientX || e.touches[0].clientX;
+                const clientY = e.clientY || e.touches[0].clientY;
+                
                 const rect = catBtn.getBoundingClientRect();
-                if (rect.left > window.innerWidth / 2) {
-                    chatPanel.style.right = (window.innerWidth - rect.right) + 'px';
-                    chatPanel.style.left = 'auto';
-                } else {
-                    chatPanel.style.left = rect.left + 'px';
-                    chatPanel.style.right = 'auto';
+                startX = clientX;
+                startY = clientY;
+                initialLeft = rect.left;
+                initialTop = rect.top;
+
+                document.addEventListener('mousemove', onMove);
+                document.addEventListener('mouseup', stopDrag);
+                document.addEventListener('touchmove', onMove, { passive: false });
+                document.addEventListener('touchend', stopDrag);
+            }
+
+            function onMove(e) {
+                const clientX = e.clientX || e.touches[0].clientX;
+                const clientY = e.clientY || e.touches[0].clientY;
+
+                if (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5) {
+                    isDragging = true;
+                    e.preventDefault();
+                    
+                    let newLeft = initialLeft + (clientX - startX);
+                    let newTop = initialTop + (clientY - startY);
+
+                    const maxLeft = window.innerWidth - catBtn.offsetWidth;
+                    const maxTop = window.innerHeight - catBtn.offsetHeight;
+
+                    catBtn.style.left = Math.max(0, Math.min(newLeft, maxLeft)) + 'px';
+                    catBtn.style.top = Math.max(0, Math.min(newTop, maxTop)) + 'px';
+                    catBtn.style.bottom = 'auto';
+                    catBtn.style.right = 'auto';
                 }
-                let top = rect.top - 460;
-                if (top < 0) top = rect.bottom + 10;
-                chatPanel.style.top = top + 'px';
-                chatPanel.style.bottom = 'auto';
-                queryInput.focus();
-            } else {
-                chatPanel.style.display = 'none';
             }
-        }
 
-        async function sendCatQuery() {
-            if (!queryInput) return;
-            const query = queryInput.value.trim();
-            if (!query) return;
+            function stopDrag() {
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchmove', onMove);
+                document.removeEventListener('touchend', stopDrag);
+            }
 
-            appendMessage(query, 'user-msg');
-            queryInput.value = '';
-            sendBtn.disabled = true;
-            sendBtn.innerText = "思考中...";
-
-            const loadingId = appendMessage("🐱 正在连接大脑...", 'ai-msg');
-
-            try {
-                const response = await fetch(workerUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        "inputs": {},
-                        "query": query,
-                        "response_mode": "blocking",
-                        "conversation_id": "",
-                        "user": catUserId
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById(loadingId)?.remove();
-
-                if (data.answer) {
-                    appendMessage(data.answer, 'ai-msg');
-                } else {
-                    appendMessage("喵？出错了：" + (data.message || "未知错误"), 'ai-msg');
+            catBtn.addEventListener('click', function (e) {
+                if (!isDragging) {
+                    toggleChat(e);
                 }
-            } catch (err) {
-                document.getElementById(loadingId)?.remove();
-                appendMessage("网络连接断开啦，请检查网络~", 'ai-msg');
-            } finally {
-                sendBtn.disabled = false;
-                sendBtn.innerText = "发送";
-            }
-        }
+            });
 
-        function appendMessage(text, className) {
-            const div = document.createElement('div');
-            div.className = className;
-            div.innerText = text;
-            const id = 'msg-' + Math.random().toString(36).substr(2, 9);
-            div.id = id;
-            chatBody.appendChild(div);
-            chatBody.scrollTop = chatBody.scrollHeight;
-            return id;
-        }
+            window.toggleChat = function (e) {
+                if (e) e.stopPropagation();
+                if (chatPanel.style.display === 'none' || chatPanel.style.display === '') {
+                    chatPanel.style.display = 'flex';
+                    const rect = catBtn.getBoundingClientRect();
 
-        queryInput?.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendCatQuery();
+                    if (rect.left + 300 > window.innerWidth) {
+                        chatPanel.style.right = '20px';
+                        chatPanel.style.left = 'auto';
+                    } else {
+                        chatPanel.style.left = Math.max(10, rect.left - 200) + 'px';
+                        chatPanel.style.right = 'auto';
+                    }
+
+                    let targetTop = rect.top - 410;
+                    if (targetTop < 0) {
+                        chatPanel.style.top = (rect.bottom + 10) + 'px';
+                        chatPanel.style.bottom = 'auto';
+                    } else {
+                        chatPanel.style.top = targetTop + 'px';
+                        chatPanel.style.bottom = 'auto';
+                    }
+                    
+                    queryInput.focus();
+                } else {
+                    chatPanel.style.display = 'none';
+                }
+            };
+
+            window.sendCatQuery = async function () {
+                const query = queryInput.value.trim();
+                if (!query) return;
+
+                appendMessage(query, 'user-msg');
+                queryInput.value = '';
+                sendBtn.disabled = true;
+                sendBtn.innerText = "💭";
+
+                const loadingId = appendMessage("🐾 正在思考...", 'ai-msg');
+
+                try {
+                    const response = await fetch(workerUrl, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            "inputs": {},
+                            "query": query,
+                            "response_mode": "blocking",
+                            "conversation_id": "",
+                            "user": userId
+                        })
+                    });
+
+                    const data = await response.json();
+                    document.getElementById(loadingId)?.remove();
+
+                    if (data.answer) {
+                        appendMessage(data.answer, 'ai-msg');
+                    } else {
+                        appendMessage("喵呜？出错了：" + (data.message || "未知错误"), 'ai-msg');
+                    }
+                } catch (err) {
+                    document.getElementById(loadingId)?.remove();
+                    appendMessage("网络连接断开啦 😿", 'ai-msg');
+                } finally {
+                    sendBtn.disabled = false;
+                    sendBtn.innerText = "发送";
+                }
+            };
+
+            function appendMessage(text, className) {
+                const div = document.createElement('div');
+                div.className = className;
+                div.innerText = text;
+                div.id = 'msg-' + Math.random().toString(36).substr(2, 9);
+                chatBody.appendChild(div);
+                chatBody.scrollTop = chatBody.scrollHeight;
+                return div.id;
             }
-        });
+
+            queryInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendCatQuery();
+                }
+            });
+        })();
     </script>
 </body>
 </html>

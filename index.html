@@ -199,6 +199,11 @@
                 startY = clientY;
                 initialLeft = rect.left;
                 initialTop = rect.top;
+                // 锁定当前位置，避免 bottom/right 干扰
+                catBtn.style.left = rect.left + 'px';
+                catBtn.style.top = rect.top + 'px';
+                catBtn.style.bottom = 'auto';
+                catBtn.style.right = 'auto';
 
                 document.addEventListener('mousemove', onMove);
                 document.addEventListener('mouseup', stopDrag);
@@ -210,7 +215,7 @@
                 const clientX = e.clientX || e.touches[0].clientX;
                 const clientY = e.clientY || e.touches[0].clientY;
 
-                if (Math.abs(clientX - startX) > 5 || Math.abs(clientY - startY) > 5) {
+                if (Math.abs(clientX - startX) > 3 || Math.abs(clientY - startY) > 3) {
                     isDragging = true;
                     e.preventDefault();
                     
@@ -232,6 +237,8 @@
                 document.removeEventListener('mouseup', stopDrag);
                 document.removeEventListener('touchmove', onMove);
                 document.removeEventListener('touchend', stopDrag);
+                // 短暂延时后重置拖拽状态，避免松手瞬间点击触发
+                setTimeout(() => { isDragging = false; }, 50);
             }
 
             catBtn.addEventListener('click', function (e) {

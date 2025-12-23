@@ -148,19 +148,13 @@
                     </div>
                     <div id="response" class="response-box"></div>
 
-                    <div class="center-box">
-                        <textarea id="queryLC" class="ai-tool-textarea" placeholder="请输入 LangChain 查询请求..."></textarea>
-                        <button onclick="sendQueryLC()" class="btn ai-tool-btn">提交到 LangChain</button>
-                    </div>
-                    <div id="responseLC" class="response-box"></div>
-
                     <script>
                         async function sendQuery() {
                             const query = document.getElementById("query").value.trim().replace(/[<>]/g, "");
                             const resDiv = document.getElementById("response");
                             resDiv.innerText = "正在查询...";
                             try {
-                                const response = await fetch("https://104f14316446.ngrok-free.app/ask_dify", {
+                                const response = await fetch("https://ai-help.zhimingshi74.workers.dev/ask_dify", {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({ query })
@@ -171,26 +165,6 @@
                                 resDiv.innerText = "出错了：" + err.message;
                             } finally {
                                 document.getElementById("query").value = "";
-                            }
-                        }
-
-                        let userId = "user_" + Math.random().toString(36).substr(2, 9);
-                        async function sendQueryLC() {
-                            const query = document.getElementById("queryLC").value.trim().replace(/[<>]/g, "");
-                            const resDiv = document.getElementById("responseLC");
-                            resDiv.innerText = "正在调用 LangChain...";
-                            try {
-                                const response = await fetch("http://localhost:8000/chat", {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({ input: query, user_id: userId })
-                                });
-                                const data = await response.json();
-                                resDiv.innerText = data.response || "请求失败";
-                            } catch (err) {
-                                resDiv.innerText = "出错了：" + err.message;
-                            } finally {
-                                document.getElementById("queryLC").value = "";
                             }
                         }
                     </script>

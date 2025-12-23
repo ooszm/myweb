@@ -153,220 +153,266 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-nest.js/2.0.4/canvas-nest.js" color="random" zindex="-1"></script>
 
-    <!-- ================= 终极修复版 AI 助手 ================= -->
-    <div id="ai-comic-container" style="display: block;">
-        <div id="comic-cat-btn" title="按住拖拽，点击聊天">🐱</div>
-
-        <div id="comic-chat-panel">
+    <!-- ================= 固定式 AI 助手 (标准版) ================= -->
+    <div id="ai-fixed-container">
+        <div id="ai-chat-box">
             <div class="chat-header">
-                <span>✨ 喵喵助手</span>
-                <span class="close-btn" onclick="closeComicChat(event)">×</span>
+                <div class="header-info">
+                    <span class="avatar">🐱</span>
+                    <span class="title">AI 喵喵助手</span>
+                </div>
+                <span class="close-icon" onclick="toggleChat()">×</span>
             </div>
             
-            <div class="chat-body" id="comic-response-area">
-                <div class="ai-msg">你好呀！我是你的 AI 小助手，有什么可以帮你？🐾</div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message ai">
+                    嗨！我是你的 AI 助手，不管是技术问题还是闲聊，都可以找我哦！✨
+                </div>
             </div>
 
-            <div class="chat-footer">
-                <textarea id="comic-query" placeholder="输入问题..."></textarea>
-                <button onclick="sendComicQuery()" id="comic-send-btn">发送</button>
+            <div class="chat-input-area">
+                <textarea id="user-input" placeholder="输入你的问题... (Enter 发送)"></textarea>
+                <button onclick="sendMessage()" id="send-btn">发送</button>
             </div>
+        </div>
+
+        <div id="ai-btn" onclick="toggleChat()">
+            <span class="cat-icon">🐱</span>
+            <span class="close-icon-btn">×</span>
         </div>
     </div>
 
+    <style>
+        #ai-fixed-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        #ai-btn {
+            width: 60px;
+            height: 60px;
+            background: #4285F4;
+            border-radius: 50%;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background 0.2s;
+            position: relative;
+        }
+        #ai-btn:hover {
+            transform: scale(1.1);
+            background: #3367d6;
+        }
+        #ai-btn .cat-icon { font-size: 32px; line-height: 1; display: block; }
+        #ai-btn .close-icon-btn { font-size: 30px; color: white; display: none; }
+        #ai-fixed-container.active #ai-btn .cat-icon { display: none; }
+        #ai-fixed-container.active #ai-btn .close-icon-btn { display: block; }
+        #ai-fixed-container.active #ai-btn { background: #666; }
+
+        #ai-chat-box {
+            width: 350px;
+            height: 500px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: popUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: bottom right;
+        }
+
+        @keyframes popUp {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .chat-header {
+            background: #4285F4;
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .header-info { display: flex; align-items: center; gap: 8px; }
+        .header-info .avatar { font-size: 24px; background: rgba(255,255,255,0.2); padding: 4px; border-radius: 50%; }
+        .header-info .title { font-weight: bold; font-size: 16px; }
+        .close-icon { cursor: pointer; opacity: 0.8; font-size: 20px; }
+        .close-icon:hover { opacity: 1; }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            background: #f9f9f9;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .chat-messages::-webkit-scrollbar { width: 6px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+        .message {
+            padding: 10px 14px;
+            border-radius: 10px;
+            max-width: 85%;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+        .message.ai {
+            align-self: flex-start;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            color: #333;
+            border-bottom-left-radius: 2px;
+        }
+        .message.user {
+            align-self: flex-end;
+            background: #4285F4;
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .chat-input-area {
+            padding: 12px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+        #user-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 8px;
+            height: 40px;
+            max-height: 100px;
+            resize: none;
+            font-size: 14px;
+            outline: none;
+            font-family: inherit;
+        }
+        #user-input:focus { border-color: #4285F4; }
+        #send-btn {
+            height: 40px;
+            padding: 0 16px;
+            background: #4285F4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        #send-btn:hover { background: #3367d6; }
+        #send-btn:disabled { background: #ccc; cursor: not-allowed; }
+        
+        @media (max-width: 480px) {
+            #ai-chat-box {
+                width: 300px;
+                height: 80vh;
+            }
+        }
+    </style>
+
     <script>
         (function() {
-            var catBtn = document.getElementById('comic-cat-btn');
-            var chatPanel = document.getElementById('comic-chat-panel');
-            var chatBody = document.getElementById('comic-response-area');
-            var queryInput = document.getElementById('comic-query');
-            var sendBtn = document.getElementById('comic-send-btn');
+            const container = document.getElementById('ai-fixed-container');
+            const chatBox = document.getElementById('ai-chat-box');
+            const chatMessages = document.getElementById('chat-messages');
+            const input = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
             
-            var workerUrl = "https://ai-help.zhimingshi74.workers.dev";
-            var userId = "user_" + Math.random().toString(36).substr(2, 9);
+            const WORKER_URL = "https://ai-help.zhimingshi74.workers.dev";
+            const USER_ID = "user_" + Math.random().toString(36).substr(2, 9);
 
-            var isDragging = false;
-            var hasMoved = false;
-
-            function onMouseDown(e) {
-                if (e.button !== 0) return;
-
-                isDragging = false;
-                hasMoved = false;
-
-                var rect = catBtn.getBoundingClientRect();
-                var startX = e.clientX;
-                var startY = e.clientY;
-                var offsetX = startX - rect.left;
-                var offsetY = startY - rect.top;
-
-                catBtn.style.left = rect.left + 'px';
-                catBtn.style.top = rect.top + 'px';
-                catBtn.style.bottom = 'auto';
-                catBtn.style.right = 'auto';
-                catBtn.style.position = 'fixed';
-
-                var wasPanelOpen = (chatPanel.style.display === 'flex');
-                if (wasPanelOpen) chatPanel.style.display = 'none';
-
-                function onMouseMove(moveEvent) {
-                    var curX = moveEvent.clientX;
-                    var curY = moveEvent.clientY;
-
-                    if (!isDragging && (Math.abs(curX - startX) > 3 || Math.abs(curY - startY) > 3)) {
-                        isDragging = true;
-                        hasMoved = true;
-                    }
-
-                    if (isDragging) {
-                        moveEvent.preventDefault();
-
-                        var newLeft = curX - offsetX;
-                        var newTop = curY - offsetY;
-
-                        var maxLeft = window.innerWidth - catBtn.offsetWidth;
-                        var maxTop = window.innerHeight - catBtn.offsetHeight;
-
-                        newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-                        newTop = Math.max(0, Math.min(newTop, maxTop));
-
-                        catBtn.style.left = newLeft + 'px';
-                        catBtn.style.top = newTop + 'px';
-                    }
-                }
-
-                function onMouseUp() {
-                    document.removeEventListener('mousemove', onMouseMove);
-                    document.removeEventListener('mouseup', onMouseUp);
-
-                    if (wasPanelOpen && isDragging) {
-                        openComicChat();
-                    }
-                }
-
-                document.addEventListener('mousemove', onMouseMove);
-                document.addEventListener('mouseup', onMouseUp);
-            }
-
-            catBtn.addEventListener('mousedown', onMouseDown);
-
-            catBtn.addEventListener('touchstart', function(e) {
-                var touch = e.touches[0];
-                var mouseEvent = new MouseEvent('mousedown', {
-                    clientX: touch.clientX,
-                    clientY: touch.clientY,
-                    button: 0
-                });
-                catBtn.dispatchEvent(mouseEvent);
-            }, {passive: false});
-
-            catBtn.addEventListener('click', function() {
-                if (!hasMoved) {
-                    if (chatPanel.style.display === 'flex') {
-                        closeComicChat();
-                    } else {
-                        openComicChat();
-                    }
-                }
-            });
-
-            window.closeComicChat = function(e) {
-                if (e) e.stopPropagation();
-                chatPanel.style.display = 'none';
-            };
-
-            window.openComicChat = function() {
-                chatPanel.style.display = 'flex';
-                updatePanelPos();
-                chatBody.scrollTop = chatBody.scrollHeight;
-                if (window.innerWidth > 768) queryInput.focus();
-            };
-
-            function updatePanelPos() {
-                var catRect = catBtn.getBoundingClientRect();
-                var panelW = 300;
-                var panelH = 420;
-                var screenW = window.innerWidth;
-                var screenH = window.innerHeight;
-
-                chatPanel.classList.remove('arrow-left', 'arrow-right');
-
-                var targetLeft;
-                if (catRect.left > screenW / 2) {
-                    targetLeft = catRect.left - panelW - 15;
-                    chatPanel.classList.add('arrow-right');
+            window.toggleChat = function() {
+                if (chatBox.style.display === 'flex') {
+                    chatBox.style.display = 'none';
+                    container.classList.remove('active');
                 } else {
-                    targetLeft = catRect.right + 15;
-                    chatPanel.classList.add('arrow-left');
+                    chatBox.style.display = 'flex';
+                    container.classList.add('active');
+                    if(window.innerWidth > 768) input.focus();
+                    scrollToBottom();
                 }
+            };
 
-                var targetTop = catRect.top;
-                if (targetTop + panelH > screenH - 10) {
-                    targetTop = screenH - panelH - 10;
-                }
-                if (targetTop < 10) targetTop = 10;
+            window.sendMessage = async function() {
+                const text = input.value.trim();
+                if (!text) return;
 
-                if (targetLeft < 10) targetLeft = 10;
-                if (targetLeft + panelW > screenW - 10) targetLeft = screenW - panelW - 10;
-
-                chatPanel.style.left = targetLeft + 'px';
-                chatPanel.style.top = targetTop + 'px';
-                chatPanel.style.bottom = 'auto';
-                chatPanel.style.right = 'auto';
-            }
-
-            window.sendComicQuery = async function() {
-                var query = queryInput.value.trim();
-                if (!query) return;
-
-                appendMsg(query, 'user-msg');
-                queryInput.value = '';
+                appendMessage(text, 'user');
+                input.value = '';
+                input.style.height = '40px';
                 sendBtn.disabled = true;
-                sendBtn.innerText = "...";
 
-                var loadingId = appendMsg("🐾 思考中...", 'ai-msg');
+                const loadingId = appendMessage("🐱 思考中...", 'ai');
 
                 try {
-                    var res = await fetch(workerUrl, {
+                    const response = await fetch(WORKER_URL, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             "inputs": {},
-                            "query": query,
+                            "query": text,
                             "response_mode": "blocking",
                             "conversation_id": "",
-                            "user": userId
+                            "user": USER_ID
                         })
                     });
-                    var data = await res.json();
-                    document.getElementById(loadingId).remove();
 
-                    if (data.answer) appendMsg(data.answer, 'ai-msg');
-                    else appendMsg("出错啦：" + (data.message || "未知"), 'ai-msg');
+                    const data = await response.json();
+                    const loadingEl = document.getElementById(loadingId);
+                    if(loadingEl) loadingEl.remove();
 
+                    if (data.answer) {
+                        appendMessage(data.answer, 'ai');
+                    } else {
+                        appendMessage("出错了：" + (data.message || "未知错误"), 'ai');
+                    }
                 } catch (err) {
-                    document.getElementById(loadingId).remove();
-                    appendMsg("网络不通畅 😿", 'ai-msg');
+                    const loadingEl = document.getElementById(loadingId);
+                    if(loadingEl) loadingEl.remove();
+                    appendMessage("网络连接失败，请检查网络。", 'ai');
                 } finally {
                     sendBtn.disabled = false;
-                    sendBtn.innerText = "发送";
+                    if(window.innerWidth > 768) input.focus();
                 }
             };
 
-            function appendMsg(text, cls) {
-                var div = document.createElement('div');
-                div.className = cls;
+            function appendMessage(text, type) {
+                const div = document.createElement('div');
+                div.className = `message ${type}`;
                 div.innerText = text;
-                div.id = 'msg-' + Math.random().toString(36).substr(2, 9);
-                chatBody.appendChild(div);
-                chatBody.scrollTop = chatBody.scrollHeight;
+                div.id = 'msg-' + Date.now();
+                chatMessages.appendChild(div);
+                scrollToBottom();
                 return div.id;
             }
 
-            queryInput.addEventListener('keypress', function(e) {
+            function scrollToBottom() {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    sendComicQuery();
+                    sendMessage();
                 }
             });
         })();

@@ -224,5 +224,159 @@
             };
         }
     </script>
+
+    <!-- 悬浮 AI 助手 -->
+    <div id="ai-cat-btn" class="cat-btn" title="点击和我聊天，或是拖拽我玩~">🐱</div>
+    <div id="ai-chat-panel" class="chat-panel" style="display: none;">
+        <div class="chat-header">
+            <span>✨ AI 喵喵助手</span>
+            <span class="close-btn" onclick="toggleChat()">×</span>
+        </div>
+        
+        <div class="chat-body" id="chat-response-area">
+            <div class="ai-msg">你好呀！我是你的博客小助手，有什么想问的吗？🐾</div>
+        </div>
+
+        <div class="chat-footer">
+            <textarea id="cat-query" placeholder="输入你的问题... (Shift+Enter换行)"></textarea>
+            <button onclick="sendCatQuery()" id="send-btn">发送</button>
+        </div>
+    </div>
+
+    <script>
+        // 悬浮助手逻辑
+        const catBtn = document.getElementById('ai-cat-btn');
+        const chatPanel = document.getElementById('ai-chat-panel');
+        const chatBody = document.getElementById('chat-response-area');
+        const queryInput = document.getElementById('cat-query');
+        const sendBtn = document.getElementById('send-btn');
+
+        // 复用已有 userId，如不存在则生成
+        const catUserId = (typeof userId !== "undefined" && userId) ? userId : "user_" + Math.random().toString(36).substr(2, 9);
+        const workerUrl = "https://ai-help.zhimingshi74.workers.dev";
+
+        let isDragging = false;
+        let hasMoved = false;
+
+        catBtn.addEventListener('mousedown', function (e) {
+            isDragging = true;
+            hasMoved = false;
+            let shiftX = e.clientX - catBtn.getBoundingClientRect().left;
+            let shiftY = e.clientY - catBtn.getBoundingClientRect().top;
+
+            function moveAt(pageX, pageY) {
+                hasMoved = true;
+                const maxLeft = window.innerWidth - catBtn.offsetWidth;
+                const maxTop = window.innerHeight - catBtn.offsetHeight;
+                const left = Math.max(0, Math.min(pageX - shiftX, maxLeft));
+                const top = Math.max(0, Math.min(pageY - shiftY, maxTop));
+                catBtn.style.left = left + 'px';
+                catBtn.style.top = top + 'px';
+                catBtn.style.bottom = 'auto';
+                catBtn.style.right = 'auto';
+            }
+
+            function onMouseMove(event) {
+                moveAt(event.pageX, event.pageY);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            catBtn.onmouseup = function () {
+                document.removeEventListener('mousemove', onMouseMove);
+                catBtn.onmouseup = null;
+                setTimeout(() => { isDragging = false; }, 0);
+            };
+        });
+
+        catBtn.ondragstart = function () { return false; };
+
+        catBtn.addEventListener('click', function () {
+            if (!hasMoved) {
+                toggleChat();
+            }
+        });
+
+        function toggleChat() {
+            if (chatPanel.style.display === 'none') {
+                chatPanel.style.display = 'flex';
+                const rect = catBtn.getBoundingClientRect();
+                if (rect.left > window.innerWidth / 2) {
+                    chatPanel.style.right = (window.innerWidth - rect.right) + 'px';
+                    chatPanel.style.left = 'auto';
+                } else {
+                    chatPanel.style.left = rect.left + 'px';
+                    chatPanel.style.right = 'auto';
+                }
+                let top = rect.top - 460;
+                if (top < 0) top = rect.bottom + 10;
+                chatPanel.style.top = top + 'px';
+                chatPanel.style.bottom = 'auto';
+                queryInput.focus();
+            } else {
+                chatPanel.style.display = 'none';
+            }
+        }
+
+        async function sendCatQuery() {
+            if (!queryInput) return;
+            const query = queryInput.value.trim();
+            if (!query) return;
+
+            appendMessage(query, 'user-msg');
+            queryInput.value = '';
+            sendBtn.disabled = true;
+            sendBtn.innerText = "思考中...";
+
+            const loadingId = appendMessage("🐱 正在连接大脑...", 'ai-msg');
+
+            try {
+                const response = await fetch(workerUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        "inputs": {},
+                        "query": query,
+                        "response_mode": "blocking",
+                        "conversation_id": "",
+                        "user": catUserId
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById(loadingId)?.remove();
+
+                if (data.answer) {
+                    appendMessage(data.answer, 'ai-msg');
+                } else {
+                    appendMessage("喵？出错了：" + (data.message || "未知错误"), 'ai-msg');
+                }
+            } catch (err) {
+                document.getElementById(loadingId)?.remove();
+                appendMessage("网络连接断开啦，请检查网络~", 'ai-msg');
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.innerText = "发送";
+            }
+        }
+
+        function appendMessage(text, className) {
+            const div = document.createElement('div');
+            div.className = className;
+            div.innerText = text;
+            const id = 'msg-' + Math.random().toString(36).substr(2, 9);
+            div.id = id;
+            chatBody.appendChild(div);
+            chatBody.scrollTop = chatBody.scrollHeight;
+            return id;
+        }
+
+        queryInput?.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendCatQuery();
+            }
+        });
+    </script>
 </body>
 </html>

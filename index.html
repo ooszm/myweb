@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
@@ -139,8 +139,8 @@
                             <a href="https://tongyi.aliyun.com/wanxiang/videoCreation" target="_blank" class="btn ai-tool-btn" rel="noopener noreferrer">通义万相 (视频)</a>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </main>
     </div>
@@ -153,139 +153,168 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-nest.js/2.0.4/canvas-nest.js" color="random" zindex="-1"></script>
 
-    <!-- ================= 强力修复版悬浮 AI 助手 ================= -->
-    <div id="ai-cat-container">
-        <div id="ai-cat-btn" title="点我聊天，拖我玩~">🐱</div>
-        <div id="ai-chat-panel">
+    <!-- ================= 漫画风 AI 助手 (最终修复版) ================= -->
+    <div id="ai-comic-container">
+        <div id="comic-cat-btn" title="按住我拖拽，点击聊聊~">🐱</div>
+
+        <div id="comic-chat-panel">
             <div class="chat-header">
-                <span>✨ AI 喵喵助手</span>
-                <span class="close-btn" onclick="toggleChat(event)">×</span>
+                <span>✨ 喵喵助手</span>
+                <span class="close-btn" onclick="toggleComicChat(event)">×</span>
             </div>
             
-            <div class="chat-body" id="chat-response-area">
+            <div class="chat-body" id="comic-response-area">
                 <div class="ai-msg">嗨！我是你的博客小助手，有什么想问的吗？🐾</div>
             </div>
 
             <div class="chat-footer">
-                <textarea id="cat-query" placeholder="输入问题 (Shift+Enter换行)"></textarea>
-                <button onclick="sendCatQuery()" id="send-btn">发送</button>
+                <textarea id="comic-query" placeholder="输入问题..."></textarea>
+                <button onclick="sendComicQuery()" id="comic-send-btn">发送</button>
             </div>
         </div>
     </div>
 
     <script>
-        (function () {
-            const catBtn = document.getElementById('ai-cat-btn');
-            const chatPanel = document.getElementById('ai-chat-panel');
-            const chatBody = document.getElementById('chat-response-area');
-            const queryInput = document.getElementById('cat-query');
-            const sendBtn = document.getElementById('send-btn');
-            const userId = "user_" + Math.random().toString(36).substr(2, 9);
+        (function() {
+            const catBtn = document.getElementById('comic-cat-btn');
+            const chatPanel = document.getElementById('comic-chat-panel');
+            const chatBody = document.getElementById('comic-response-area');
+            const queryInput = document.getElementById('comic-query');
+            const sendBtn = document.getElementById('comic-send-btn');
+            
             const workerUrl = "https://ai-help.zhimingshi74.workers.dev";
+            const userId = "user_" + Math.random().toString(36).substr(2, 9);
 
             let isDragging = false;
-            let startX, startY, initialLeft, initialTop;
 
-            catBtn.addEventListener('mousedown', startDrag);
-            catBtn.addEventListener('touchstart', startDrag, { passive: false });
+            const initRect = catBtn.getBoundingClientRect();
+            catBtn.style.left = initRect.left + 'px';
+            catBtn.style.top = initRect.top + 'px';
+            catBtn.style.bottom = 'auto';
+            catBtn.style.right = 'auto';
 
-            function startDrag(e) {
+            function dragStart(e) {
                 isDragging = false;
                 const clientX = e.clientX || e.touches[0].clientX;
                 const clientY = e.clientY || e.touches[0].clientY;
-                
+
                 const rect = catBtn.getBoundingClientRect();
-                startX = clientX;
-                startY = clientY;
-                initialLeft = rect.left;
-                initialTop = rect.top;
-                // 锁定当前位置，避免 bottom/right 干扰
-                catBtn.style.left = rect.left + 'px';
-                catBtn.style.top = rect.top + 'px';
-                catBtn.style.bottom = 'auto';
-                catBtn.style.right = 'auto';
+                const offsetX = clientX - rect.left;
+                const offsetY = clientY - rect.top;
 
-                document.addEventListener('mousemove', onMove);
-                document.addEventListener('mouseup', stopDrag);
-                document.addEventListener('touchmove', onMove, { passive: false });
-                document.addEventListener('touchend', stopDrag);
-            }
+                function dragMove(moveEvent) {
+                    const moveX = moveEvent.clientX || moveEvent.touches[0].clientX;
+                    const moveY = moveEvent.clientY || moveEvent.touches[0].clientY;
 
-            function onMove(e) {
-                const clientX = e.clientX || e.touches[0].clientX;
-                const clientY = e.clientY || e.touches[0].clientY;
+                    if (Math.abs(moveX - clientX) > 3 || Math.abs(moveY - clientY) > 3) {
+                        isDragging = true;
+                        moveEvent.preventDefault();
 
-                if (Math.abs(clientX - startX) > 3 || Math.abs(clientY - startY) > 3) {
-                    isDragging = true;
-                    e.preventDefault();
-                    
-                    let newLeft = initialLeft + (clientX - startX);
-                    let newTop = initialTop + (clientY - startY);
+                        let newLeft = moveX - offsetX;
+                        let newTop = moveY - offsetY;
 
-                    const maxLeft = window.innerWidth - catBtn.offsetWidth;
-                    const maxTop = window.innerHeight - catBtn.offsetHeight;
+                        const maxLeft = window.innerWidth - catBtn.offsetWidth;
+                        const maxTop = window.innerHeight - catBtn.offsetHeight;
 
-                    catBtn.style.left = Math.max(0, Math.min(newLeft, maxLeft)) + 'px';
-                    catBtn.style.top = Math.max(0, Math.min(newTop, maxTop)) + 'px';
-                    catBtn.style.bottom = 'auto';
-                    catBtn.style.right = 'auto';
+                        newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                        newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                        catBtn.style.left = newLeft + 'px';
+                        catBtn.style.top = newTop + 'px';
+
+                        if (chatPanel.style.display === 'flex') {
+                            updatePanelPosition();
+                        }
+                    }
                 }
+
+                function dragEnd() {
+                    document.removeEventListener('mousemove', dragMove);
+                    document.removeEventListener('mouseup', dragEnd);
+                    document.removeEventListener('touchmove', dragMove);
+                    document.removeEventListener('touchend', dragEnd);
+                    setTimeout(() => { isDragging = false; }, 50);
+                }
+
+                document.addEventListener('mousemove', dragMove);
+                document.addEventListener('mouseup', dragEnd);
+                document.addEventListener('touchmove', dragMove, {passive: false});
+                document.addEventListener('touchend', dragEnd);
             }
 
-            function stopDrag() {
-                document.removeEventListener('mousemove', onMove);
-                document.removeEventListener('mouseup', stopDrag);
-                document.removeEventListener('touchmove', onMove);
-                document.removeEventListener('touchend', stopDrag);
-                // 短暂延时后重置拖拽状态，避免松手瞬间点击触发
-                setTimeout(() => { isDragging = false; }, 50);
-            }
+            catBtn.addEventListener('mousedown', dragStart);
+            catBtn.addEventListener('touchstart', dragStart, {passive: false});
 
-            catBtn.addEventListener('click', function (e) {
+            catBtn.addEventListener('click', function(e) {
                 if (!isDragging) {
-                    toggleChat(e);
+                    toggleComicChat(e);
                 }
             });
 
-            window.toggleChat = function (e) {
+            window.toggleComicChat = function(e) {
                 if (e) e.stopPropagation();
-                if (chatPanel.style.display === 'none' || chatPanel.style.display === '') {
-                    chatPanel.style.display = 'flex';
-                    const rect = catBtn.getBoundingClientRect();
 
-                    if (rect.left + 300 > window.innerWidth) {
-                        chatPanel.style.right = '20px';
-                        chatPanel.style.left = 'auto';
-                    } else {
-                        chatPanel.style.left = Math.max(10, rect.left - 200) + 'px';
-                        chatPanel.style.right = 'auto';
-                    }
-
-                    let targetTop = rect.top - 410;
-                    if (targetTop < 0) {
-                        chatPanel.style.top = (rect.bottom + 10) + 'px';
-                        chatPanel.style.bottom = 'auto';
-                    } else {
-                        chatPanel.style.top = targetTop + 'px';
-                        chatPanel.style.bottom = 'auto';
-                    }
-                    
-                    queryInput.focus();
-                } else {
+                if (chatPanel.style.display === 'flex') {
                     chatPanel.style.display = 'none';
+                } else {
+                    chatPanel.style.display = 'flex';
+                    updatePanelPosition();
+
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                    if (window.innerWidth > 768) {
+                        queryInput.focus();
+                    }
                 }
             };
 
-            window.sendCatQuery = async function () {
+            function updatePanelPosition() {
+                const catRect = catBtn.getBoundingClientRect();
+                const panelWidth = 300;
+                const panelHeight = 420;
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+
+                const isCatOnRight = catRect.left > (screenWidth / 2);
+                
+                let panelLeft, panelTop;
+                chatPanel.classList.remove('bubble-left', 'bubble-right');
+
+                if (isCatOnRight) {
+                    panelLeft = catRect.left - panelWidth - 15;
+                    chatPanel.classList.add('bubble-left');
+                } else {
+                    panelLeft = catRect.right + 15;
+                    chatPanel.classList.add('bubble-right');
+                }
+
+                panelTop = catRect.top;
+                
+                if (panelTop + panelHeight > screenHeight - 10) {
+                    panelTop = screenHeight - panelHeight - 10;
+                }
+                if (panelTop < 10) {
+                    panelTop = 10;
+                }
+
+                if (panelLeft < 10) panelLeft = 10;
+                if (panelLeft + panelWidth > screenWidth - 10) panelLeft = screenWidth - panelWidth - 10;
+
+                chatPanel.style.left = panelLeft + 'px';
+                chatPanel.style.top = panelTop + 'px';
+                chatPanel.style.bottom = 'auto';
+                chatPanel.style.right = 'auto';
+            }
+
+            window.sendComicQuery = async function() {
                 const query = queryInput.value.trim();
                 if (!query) return;
 
                 appendMessage(query, 'user-msg');
                 queryInput.value = '';
                 sendBtn.disabled = true;
-                sendBtn.innerText = "💭";
+                sendBtn.innerText = "...";
 
-                const loadingId = appendMessage("🐾 正在思考...", 'ai-msg');
+                const loadingId = appendMessage("🐾 思考中...", 'ai-msg');
 
                 try {
                     const response = await fetch(workerUrl, {
@@ -306,11 +335,11 @@
                     if (data.answer) {
                         appendMessage(data.answer, 'ai-msg');
                     } else {
-                        appendMessage("喵呜？出错了：" + (data.message || "未知错误"), 'ai-msg');
+                        appendMessage("出错了：" + (data.message || "API无响应"), 'ai-msg');
                     }
                 } catch (err) {
                     document.getElementById(loadingId)?.remove();
-                    appendMessage("网络连接断开啦 😿", 'ai-msg');
+                    appendMessage("网络连接失败", 'ai-msg');
                 } finally {
                     sendBtn.disabled = false;
                     sendBtn.innerText = "发送";
@@ -327,10 +356,10 @@
                 return div.id;
             }
 
-            queryInput.addEventListener('keypress', function (e) {
+            queryInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    sendCatQuery();
+                    sendComicQuery();
                 }
             });
         })();

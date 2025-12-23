@@ -280,7 +280,7 @@ footer {
 }
 
 #comic-cat-btn {
-    position: fixed !important;
+    position: fixed;
     bottom: 50px;
     right: 30px;
     width: 80px;
@@ -290,13 +290,12 @@ footer {
     background: #fff;
     border-radius: 50%;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     cursor: grab;
     z-index: 2147483647 !important;
     user-select: none;
     touch-action: none;
     transition: transform 0.1s;
-    border: 2px solid #fff;
 }
 
 #comic-cat-btn:active {
@@ -306,22 +305,20 @@ footer {
 
 #comic-cat-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(66, 133, 244, 0.3);
 }
 
 #comic-chat-panel {
     display: none;
-    position: fixed !important;
+    position: fixed;
     width: 300px;
     height: 420px;
     background: #fff;
-    border-radius: 20px;
+    border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     flex-direction: column;
     z-index: 2147483646 !important;
-    border: 1px solid #e0e0e0;
-    overflow: visible;
-    transition: opacity 0.2s;
+    border: 1px solid #ccc;
+    overflow: hidden;
 }
 
 #comic-chat-panel::after {
@@ -332,20 +329,18 @@ footer {
     border-style: solid;
 }
 
-#comic-chat-panel.bubble-left::after {
-    right: -10px;
-    top: 30px;
-    border-width: 10px 0 10px 12px;
-    border-color: transparent transparent transparent #fff;
-    filter: drop-shadow(2px 0 1px rgba(0, 0, 0, 0.05));
+#comic-chat-panel.arrow-left::after {
+    left: -10px;
+    top: 40px;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #fff transparent transparent;
 }
 
-#comic-chat-panel.bubble-right::after {
-    left: -10px;
-    top: 30px;
-    border-width: 10px 12px 10px 0;
-    border-color: transparent #fff transparent transparent;
-    filter: drop-shadow(-2px 0 1px rgba(0, 0, 0, 0.05));
+#comic-chat-panel.arrow-right::after {
+    right: -10px;
+    top: 40px;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent #fff;
 }
 
 #comic-chat-panel * {
@@ -353,11 +348,11 @@ footer {
 }
 
 .chat-header {
-    background: linear-gradient(135deg, #4285F4, #8ab4f8);
-    padding: 15px;
+    background: #4285F4;
+    padding: 12px;
     color: #fff;
     font-weight: bold;
-    border-radius: 20px 20px 0 0;
+    border-radius: 12px 12px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -365,23 +360,17 @@ footer {
 
 .close-btn {
     cursor: pointer;
-    font-size: 24px;
-    line-height: 1;
-    opacity: 0.8;
-}
-
-.close-btn:hover {
-    opacity: 1;
+    font-size: 20px;
 }
 
 .chat-body {
     flex: 1;
     padding: 15px;
     overflow-y: auto;
-    background: #f8f9fa;
+    background: #f9f9f9;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     font-size: 14px;
 }
 
@@ -391,8 +380,8 @@ footer {
 
 .ai-msg,
 .user-msg {
-    padding: 10px 14px;
-    border-radius: 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
     max-width: 85%;
     line-height: 1.5;
     word-wrap: break-word;
@@ -401,61 +390,51 @@ footer {
 .ai-msg {
     align-self: flex-start;
     background: #fff;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #ddd;
     color: #333;
-    border-bottom-left-radius: 2px;
 }
 
 .user-msg {
     align-self: flex-end;
     background: #4285F4;
     color: #fff;
-    border-bottom-right-radius: 2px;
 }
 
 .chat-footer {
-    padding: 12px;
-    border-top: 1px solid #eee;
+    padding: 10px;
     background: #fff;
-    border-radius: 0 0 20px 20px;
+    border-top: 1px solid #eee;
     display: flex;
     gap: 8px;
+    border-radius: 0 0 12px 12px;
 }
 
 #comic-query {
     flex: 1;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 8px;
-    height: 38px;
+    height: 36px;
     font-size: 14px;
     outline: none;
     resize: none;
 }
 
-#comic-query:focus {
-    border-color: #4285F4;
-}
+#comic-query:focus { border-color: #4285F4; }
 
 #comic-send-btn {
     background: #4285F4;
     color: #fff;
     border: none;
     padding: 0 16px;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
     font-weight: 500;
     white-space: nowrap;
 }
 
-#comic-send-btn:hover {
-    background: #3367d6;
-}
-
-#comic-send-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-}
+#comic-send-btn:hover { background: #3367d6; }
+#comic-send-btn:disabled { background: #ccc; cursor: not-allowed; }
 @media (max-width: 768px) {
     header h1 {
         font-size: 2rem;

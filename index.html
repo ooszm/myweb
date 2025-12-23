@@ -149,22 +149,52 @@
                     <div id="response" class="response-box"></div>
 
                     <script>
+                        // 生成一个随机的用户ID，因为 Dify 要求必须带 user 参数
+                        const userId = "user_" + Math.random().toString(36).substr(2, 9);
+
                         async function sendQuery() {
-                            const query = document.getElementById("query").value.trim().replace(/[<>]/g, "");
+                            const queryBox = document.getElementById("query");
+                            const query = queryBox.value.trim(); // 去掉收尾空格
                             const resDiv = document.getElementById("response");
-                            resDiv.innerText = "正在查询...";
+
+                            if (!query) return; // 如果没输入内容就不发送
+
+                            resDiv.innerText = "✨ 小助手正在思考中..."; // 提示语可以可爱一点
+                            
                             try {
-                                const response = await fetch("https://ai-help.zhimingshi74.workers.dev/ask_dify", {
+                                // 注意：这里不用加 /ask_dify 后缀，直接用域名即可，除非你在 Worker 里专门写了路由判断
+                                const response = await fetch("https://ai-help.zhimingshi74.workers.dev", {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({ query })
+                                    // ⚠️ 关键修改：Dify 要求的标准格式如下
+                                    body: JSON.stringify({
+                                        "inputs": {}, // 必填，即便是空的
+                                        "query": query, // 你的问题
+                                        "response_mode": "blocking", // 必填，blocking 代表等说完了一次性返回
+                                        "conversation_id": "", // 留空，代表开启新对话
+                                        "user": userId // 必填，用户标识
+                                    })
                                 });
+
+                                if (!response.ok) {
+                                    throw new Error("网络请求失败，状态码：" + response.status);
+                                }
+
                                 const data = await response.json();
-                                resDiv.innerText = data.result || "请求失败";
+                                
+                                // ⚠️ 关键修改：Dify 返回的字段叫 answer，不叫 result
+                                if (data.answer) {
+                                     resDiv.innerText = data.answer;
+                                } else {
+                                     // 如果报错了，通常在 data.message 或 data.code 里
+                                     resDiv.innerText = "呜呜，小助手出错了：" + (data.message || JSON.stringify(data));
+                                }
+
                             } catch (err) {
-                                resDiv.innerText = "出错了：" + err.message;
+                                resDiv.innerText = "连接失败啦：" + err.message;
                             } finally {
-                                document.getElementById("query").value = "";
+                                // 发送完清空输入框
+                                queryBox.value = "";
                             }
                         }
                     </script>

@@ -187,9 +187,12 @@ footer {
 }
 
 .ai-tools-section {
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
 }
 
 .ai-tools-section h3 {
@@ -232,54 +235,59 @@ footer {
     border: 1px solid transparent;
 }
 
-.ai-tool-btn {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-}
-
-.ai-tool-btn:hover {
-    background-color: rgba(var(--primary-accent-rgb), 0.15);
-    border-color: var(--primary-accent);
-    color: var(--heading-color);
-    transform: translateY(-2px);
-}
-
 .center-box {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
+    gap: 10px;
 }
 
 .ai-tool-textarea {
-    width: 60%;
-    min-width: 300px;
-    height: 100px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 8px;
+    width: 100%;
+    padding: 12px;
     border: 1px solid #ccc;
-    margin-bottom: 10px;
+    border-radius: 8px;
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.ai-tool-textarea:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+.ai-tool-btn {
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+    align-self: flex-end;
+}
+
+.ai-tool-btn:hover {
+    background-color: #357abd;
 }
 
 .response-box,
 #response,
 #responseLC {
-    margin-top: 20px;
-    padding: 16px;
+    margin-top: 15px;
+    padding: 15px;
+    background: #fff;
     border-radius: 8px;
-    background-color: #1e1e1e;
-    color: #f0f0f0;
-    font-size: 16px;
-    line-height: 1.5;
-    border: 1px solid #444;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    border: 1px solid #eee;
+    min-height: 40px;
+    color: #333;
+    line-height: 1.6;
     white-space: pre-wrap;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
 @media (max-width: 768px) {

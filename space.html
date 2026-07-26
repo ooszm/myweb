@@ -1,94 +1,173 @@
-﻿<!DOCTYPE html>
-<html lang="zh">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>星际探索 - 航天科技速览</title>
+    <meta name="description" content="聚焦 SpaceX、蓝色起源与蓝箭航天，快速了解商业航天公司的技术路线与代表项目。">
+    <title>星际探索｜商业航天科技速览</title>
     <link rel="stylesheet" href="./styles/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <div class="container">
-            <h1>星际探索</h1>
-            <p>SpaceX · 蓝色起源 · 朱雀火箭</p>
+<body class="space-page">
+    <header class="space-header">
+        <div class="space-nav-shell">
+            <a class="space-wordmark" href="./space.html" aria-label="星际探索首页">
+                SPACE<span>FRONTIER</span>
+            </a>
+
+            <nav class="space-nav" aria-label="主导航">
+                <ul>
+                    <li><a href="./index.html">首页</a></li>
+                    <li><a href="./space.html" aria-current="page">星际探索</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <div class="container content-wrapper">
-        <nav>
-            <ul>
-                <li><a href="./index.html">首页</a></li>
-                <li><a href="./space.html" class="active">星际探索</a></li>
-            </ul>
-        </nav>
+    <main class="space-main">
+        <section class="space-hero" aria-labelledby="space-title">
+            <div class="space-hero-content">
+                <p class="space-eyebrow">Commercial Spaceflight / 01</p>
+                <h1 id="space-title">向更远处<br>持续推进</h1>
+                <p class="space-intro">
+                    聚焦三股活跃的商业航天力量，了解它们如何通过复用、重型运载与新型推进技术重新定义进入太空的方式。
+                </p>
+                <a class="space-button" href="#companies">
+                    探索公司
+                    <span aria-hidden="true">↓</span>
+                </a>
+            </div>
+        </section>
 
-        <main>
-            <div class="card about-content">
-                <h1>航天科技一览</h1>
-                <p>聚焦当下最活跃的商业航天力量，快速了解它们的愿景、技术亮点与代表任务。</p>
-
-                <div class="ai-tools-section">
-                    <h3>SpaceX</h3>
-                    <div class="ai-tools-grid">
-                        <span class="btn ai-tool-btn">Starship：可重复使用超重型火箭</span>
-                        <span class="btn ai-tool-btn">Falcon 9：首枚高频复用轨道火箭</span>
-                        <span class="btn ai-tool-btn">Dragon：载人/货运飞船</span>
-                    </div>
-                    <ul class="contact-list" style="margin-top:1rem;">
-                        <li>代表任务：星链星座部署、Crew Dragon 载人飞行、星舰轨道试飞</li>
-                        <li>愿景：降低进入太空成本，加速火星殖民</li>
-                        <li>官网：<a href="https://www.spacex.com/" target="_blank" rel="noopener noreferrer">spacex.com</a></li>
-                    </ul>
+        <section class="companies-section" id="companies" aria-labelledby="companies-title">
+            <div class="space-container">
+                <div class="section-heading">
+                    <p class="space-eyebrow">Three Paths / One Frontier</p>
+                    <h2 id="companies-title">商业航天力量</h2>
+                    <p>不同的技术路线，共同指向更低成本、更高频次的太空运输。</p>
                 </div>
 
-                <div class="ai-tools-section">
-                    <h3>蓝色起源（Blue Origin）</h3>
-                    <div class="ai-tools-grid">
-                        <span class="btn ai-tool-btn">New Shepard：亚轨道旅游火箭</span>
-                        <span class="btn ai-tool-btn">New Glenn：计划中的可复用重型火箭</span>
-                        <span class="btn ai-tool-btn">Blue Moon：月球着陆器构想</span>
-                    </div>
-                    <ul class="contact-list" style="margin-top:1rem;">
-                        <li>代表进展：New Shepard 多次亚轨道载人飞行</li>
-                        <li>愿景：建设“通往太空的道路”，支持长期太空居住</li>
-                        <li>官网：<a href="https://www.blueorigin.com/" target="_blank" rel="noopener noreferrer">blueorigin.com</a></li>
-                    </ul>
-                </div>
+                <div class="company-grid">
+                    <article class="company-card">
+                        <div class="company-card-topline">
+                            <span class="company-index" aria-hidden="true">01</span>
+                            <span class="company-origin">United States</span>
+                        </div>
+                        <div class="company-card-body">
+                            <p class="company-kicker">Rapid Reusability</p>
+                            <h3>SpaceX</h3>
+                            <p class="company-summary">
+                                以高频复用和垂直整合降低发射成本，并持续推进面向深空运输的完全可复用系统。
+                            </p>
+                            <ul class="feature-tags" aria-label="SpaceX 代表项目">
+                                <li>Starship</li>
+                                <li>Falcon 9</li>
+                                <li>Dragon</li>
+                            </ul>
+                            <dl class="company-facts">
+                                <div>
+                                    <dt>代表任务</dt>
+                                    <dd>高频轨道发射、载人飞行与星舰试飞</dd>
+                                </div>
+                                <div>
+                                    <dt>核心方向</dt>
+                                    <dd>完全快速复用与多行星运输</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <a class="space-button card-button" href="https://www.spacex.com/" target="_blank" rel="noopener noreferrer">
+                            访问官网
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                    </article>
 
-                <div class="ai-tools-section">
-                    <h3>朱雀火箭（中国·蓝箭航天）</h3>
-                    <div class="ai-tools-grid">
-                        <span class="btn ai-tool-btn">朱雀二号：全球首枚成功入轨的液氧甲烷火箭</span>
-                        <span class="btn ai-tool-btn">可复用技术：箭体回收与再使用在研</span>
-                        <span class="btn ai-tool-btn">商用发射：面向卫星星座与载荷客户</span>
-                    </div>
-                    <ul class="contact-list" style="margin-top:1rem;">
-                        <li>代表进展：2023-2024 多次成功入轨发射</li>
-                        <li>愿景：以低成本、液氧甲烷技术支撑高频次商发</li>
-                        <li>官网：<a href="https://www.landspace.com/" target="_blank" rel="noopener noreferrer">landspace.com</a></li>
-                    </ul>
-                </div>
+                    <article class="company-card">
+                        <div class="company-card-topline">
+                            <span class="company-index" aria-hidden="true">02</span>
+                            <span class="company-origin">United States</span>
+                        </div>
+                        <div class="company-card-body">
+                            <p class="company-kicker">Road to Space</p>
+                            <h3>Blue Origin</h3>
+                            <p class="company-summary">
+                                从亚轨道载人飞行延伸至重型运载与月球着陆系统，探索长期太空居住所需的基础设施。
+                            </p>
+                            <ul class="feature-tags" aria-label="蓝色起源代表项目">
+                                <li>New Shepard</li>
+                                <li>New Glenn</li>
+                                <li>Blue Moon</li>
+                            </ul>
+                            <dl class="company-facts">
+                                <div>
+                                    <dt>代表任务</dt>
+                                    <dd>New Glenn 轨道发射与 New Shepard 载人飞行</dd>
+                                </div>
+                                <div>
+                                    <dt>核心方向</dt>
+                                    <dd>可复用重型运载与月球、在轨基础设施</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <a class="space-button card-button" href="https://www.blueorigin.com/" target="_blank" rel="noopener noreferrer">
+                            访问官网
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                    </article>
 
-                <div class="ai-tools-section">
-                    <h3>推荐阅读与资源</h3>
-                    <div class="ai-tools-grid">
-                        <a class="btn ai-tool-btn" href="https://www.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA</a>
-                        <a class="btn ai-tool-btn" href="https://www.esa.int/" target="_blank" rel="noopener noreferrer">ESA</a>
-                        <a class="btn ai-tool-btn" href="https://www.spacex.com/vehicles/starship/" target="_blank" rel="noopener noreferrer">Starship 技术页</a>
-                        <a class="btn ai-tool-btn" href="https://www.blueorigin.com/new-glenn/" target="_blank" rel="noopener noreferrer">New Glenn 介绍</a>
-                        <a class="btn ai-tool-btn" href="https://www.landspace.com/" target="_blank" rel="noopener noreferrer">蓝箭航天官网</a>
-                    </div>
+                    <article class="company-card">
+                        <div class="company-card-topline">
+                            <span class="company-index" aria-hidden="true">03</span>
+                            <span class="company-origin">China</span>
+                        </div>
+                        <div class="company-card-body">
+                            <p class="company-kicker">Methalox Propulsion</p>
+                            <h3>LandSpace</h3>
+                            <p class="company-summary">
+                                以液氧甲烷动力切入商业发射市场，并围绕可复用运载系统探索更高频次的发射能力。
+                            </p>
+                            <ul class="feature-tags" aria-label="蓝箭航天代表项目">
+                                <li>朱雀二号</li>
+                                <li>液氧甲烷</li>
+                                <li>可复用技术</li>
+                            </ul>
+                            <dl class="company-facts">
+                                <div>
+                                    <dt>代表任务</dt>
+                                    <dd>朱雀二号高频发射与朱雀三号入轨回收验证</dd>
+                                </div>
+                                <div>
+                                    <dt>核心方向</dt>
+                                    <dd>中大型液氧甲烷、星座组网与重复使用</dd>
+                                </div>
+                            </dl>
+                        </div>
+                        <a class="space-button card-button" href="https://www.landspace.com/" target="_blank" rel="noopener noreferrer">
+                            访问官网
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                    </article>
                 </div>
             </div>
-        </main>
-    </div>
+        </section>
 
-    <footer>
-        <div class="container">
-            <p>© 2025 星际探索页面. 灵感源自 Google 风格的简洁设计。</p>
+        <section class="resources-section" aria-labelledby="resources-title">
+            <div class="space-container resources-layout">
+                <div>
+                    <p class="space-eyebrow">Keep Exploring</p>
+                    <h2 id="resources-title">继续探索</h2>
+                </div>
+                <div class="resource-links">
+                    <a href="https://www.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA <span aria-hidden="true">↗</span></a>
+                    <a href="https://www.esa.int/" target="_blank" rel="noopener noreferrer">ESA <span aria-hidden="true">↗</span></a>
+                    <a href="https://www.spacex.com/vehicles/starship/" target="_blank" rel="noopener noreferrer">Starship <span aria-hidden="true">↗</span></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="space-footer">
+        <div class="space-container">
+            <p>© 2026 SPACEFRONTIER</p>
+            <p>面向下一段旅程</p>
         </div>
     </footer>
 </body>
